@@ -1,0 +1,41 @@
+{% extends 'admin/base.html' %}
+{% block title %}{{ category.name_ml }} — കഥകൾ{% endblock %}
+{% block admin_content %}
+<div class="admin-page-header">
+    <h1>📘 {{ category.name_ml }} — കഥകൾ</h1>
+    <a href="{{ url_for('admin_story_add', cat_id=category.id) }}" class="btn btn-primary">+ കഥ ചേർക്കുക</a>
+</div>
+<div class="admin-table-wrap">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ക്രമം</th>
+                <th>മലയാളം ശീർഷകം</th>
+                <th>ഇംഗ്ലീഷ്</th>
+                <th>സ്ലഗ്</th>
+                <th>പ്രവർത്തനങ്ങൾ</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in stories %}
+            <tr>
+                <td>{{ s.order }}</td>
+                <td>{{ s.title_ml }}</td>
+                <td>{{ s.title_en or '-' }}</td>
+                <td>{{ s.slug }}</td>
+                <td class="actions">
+                    <a href="{{ url_for('admin_story_edit', id=s.id) }}" class="edit-btn">തിരുത്തുക</a>
+                    <form method="post" action="{{ url_for('admin_story_delete', id=s.id) }}" style="display:inline;"
+                        onsubmit="return confirm('ഡിലീറ്റ്?')"><button type="submit"
+                            class="delete-btn">ഡിലീറ്റ്</button></form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% if not stories %}<div class="empty-state">
+    <div class="icon">📘</div>
+    <h3>കഥകൾ ഇല്ല</h3>
+</div>{% endif %}
+{% endblock %}

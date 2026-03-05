@@ -1,0 +1,47 @@
+{% extends 'admin/base.html' %}
+{% block title %}ഖുർആൻ സൂറകൾ{% endblock %}
+{% block admin_content %}
+<div class="admin-page-header">
+    <h1>📖 ഖുർആൻ സൂറകൾ</h1>
+    <a href="{{ url_for('admin_surah_add') }}" class="btn btn-primary">+ സൂറ ചേർക്കുക</a>
+</div>
+<div class="admin-table-wrap">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>നം.</th>
+                <th>അറബിക്</th>
+                <th>മലയാളം</th>
+                <th>ആയത്തുകൾ</th>
+                <th>തരം</th>
+                <th>പ്രവർത്തനങ്ങൾ</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in surahs %}
+            <tr>
+                <td>{{ s.number }}</td>
+                <td style="font-family: var(--font-arabic);">{{ s.name_arabic }}</td>
+                <td>{{ s.name_malayalam }}</td>
+                <td>{{ s.total_verses or '-' }}</td>
+                <td>{{ s.revelation_type or '-' }}</td>
+                <td class="actions">
+                    <a href="{{ url_for('admin_verses', surah_id=s.id) }}" class="edit-btn">ആയത്തുകൾ</a>
+                    <a href="{{ url_for('admin_surah_edit', id=s.id) }}" class="edit-btn">തിരുത്തുക</a>
+                    <form method="post" action="{{ url_for('admin_surah_delete', id=s.id) }}" style="display:inline;"
+                        onsubmit="return confirm('ഈ സൂറ ഡിലീറ്റ് ചെയ്യണോ?')">
+                        <button type="submit" class="delete-btn">ഡിലീറ്റ്</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% if not surahs %}
+<div class="empty-state">
+    <div class="icon">📖</div>
+    <h3>സൂറകൾ ഇല്ല</h3>
+</div>
+{% endif %}
+{% endblock %}

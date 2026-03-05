@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% block title %}വിശുദ്ധ ഖുർആൻ — {{ site_name }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="relative py-20 md:py-28 bg-gradient-to-br from-islamic-primary/8 via-white to-islamic-secondary/5 overflow-hidden">
+    <div class="container mx-auto px-6 text-center relative z-10">
+        <!-- Decorative Elements -->
+        <div class="absolute top-10 left-10 w-32 h-32 bg-islamic-primary/10 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute top-20 right-20 w-40 h-40 bg-islamic-secondary/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div class="absolute bottom-10 left-1/3 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl animate-pulse delay-500"></div>
+        
+        <div class="max-w-4xl mx-auto">
+            <div class="mb-8">
+                <span class="inline-block px-6 py-3 bg-islamic-primary/10 text-islamic-primary text-sm font-bold rounded-full uppercase tracking-widest mb-6">
+                    📖 114 സൂറകൾ • 6,236 ആയത്തുകൾ
+                </span>
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-bold text-slate-900 mb-6 leading-tight font-serif">
+                വിശുദ്ധ ഖുർആൻ
+            </h1>
+            
+            <p class="text-xl md:text-2xl text-slate-600 mb-12 leading-relaxed max-w-3xl mx-auto font-light">
+                അറബിയും മലയാള പരിഭാഷയും തഫ്‌സീറും ഉൾക്കൊള്ളുന്ന പൂർണ്ണമായ ഓൺലൈൻ ഖുർആൻ
+            </p>
+            
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-3 gap-6 max-w-2xl mx-auto mb-12">
+                <div class="bg-white/60 backdrop-blur p-4 rounded-2xl border border-slate-200/50">
+                    <div class="text-2xl font-bold text-islamic-primary">114</div>
+                    <div class="text-xs text-slate-600 font-medium">സൂറകൾ</div>
+                </div>
+                <div class="bg-white/60 backdrop-blur p-4 rounded-2xl border border-slate-200/50">
+                    <div class="text-2xl font-bold text-islamic-secondary">6,236</div>
+                    <div class="text-xs text-slate-600 font-medium">ആയത്തുകൾ</div>
+                </div>
+                <div class="bg-white/60 backdrop-blur p-4 rounded-2xl border border-slate-200/50">
+                    <div class="text-2xl font-bold text-emerald-500">30</div>
+                    <div class="text-xs text-slate-600 font-medium">ജുസ്</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Search and Filter Section -->
+<section class="py-8 bg-slate-50 border-b border-slate-200">
+    <div class="container mx-auto px-6">
+        <div class="flex flex-col md:flex-row gap-4 items-center justify-between max-w-4xl mx-auto">
+            <!-- Search Bar -->
+            <div class="relative flex-1 max-w-md">
+                <input type="text" placeholder="സൂറ തിരയുക..." 
+                       class="w-full px-4 py-3 pl-12 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-islamic-primary/50 focus:border-transparent transition">
+                <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+                    🔍
+                </div>
+            </div>
+            
+            <!-- Filter Buttons -->
+            <div class="flex gap-2">
+                <button class="px-4 py-2 bg-islamic-primary text-white rounded-lg text-sm font-bold hover:bg-islamic-primary/90 transition">
+                    എല്ലാം
+                </button>
+                <button class="px-4 py-2 bg-white text-slate-600 rounded-lg text-sm font-bold hover:bg-slate-50 transition border border-slate-200">
+                    മക്കി
+                </button>
+                <button class="px-4 py-2 bg-white text-slate-600 rounded-lg text-sm font-bold hover:bg-slate-50 transition border border-slate-200">
+                    മദനി
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Surahs Grid -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-6">
+        {% if surahs %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {% for surah in surahs %}
+            <a href="{{ url_for('surah_detail', surah_number=surah.number) }}"
+               class="group relative bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 overflow-hidden">
+                
+                <!-- Background Gradient -->
+                <div class="absolute inset-0 bg-gradient-to-br from-islamic-primary/5 via-transparent to-islamic-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                
+                <!-- Decorative Element -->
+                <div class="absolute top-0 right-0 w-20 h-20 bg-islamic-primary/10 rounded-bl-full opacity-50 transition-transform group-hover:scale-125 duration-500"></div>
+                
+                <!-- Content -->
+                <div class="relative z-10">
+                    <!-- Surah Number -->
+                    <div class="w-12 h-12 bg-islamic-primary/10 text-islamic-primary font-bold flex items-center justify-center rounded-2xl border border-islamic-primary/20 group-hover:bg-islamic-primary group-hover:text-white transition duration-300 mb-4">
+                        {{ surah.number }}
+                    </div>
+                    
+                    <!-- Names -->
+                    <div class="mb-4">
+                        <h3 class="text-xl font-bold text-slate-900 mb-2 group-hover:text-islamic-primary transition leading-tight">
+                            {{ surah.name_malayalam }}
+                        </h3>
+                        <div class="arabic-text text-2xl text-slate-700 leading-relaxed" dir="rtl">
+                            {{ surah.name_arabic }}
+                        </div>
+                    </div>
+                    
+                    <!-- Metadata -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-1 bg-islamic-primary/10 text-islamic-primary text-xs font-bold rounded-md uppercase tracking-wider">
+                                {{ surah.revelation_type or 'Meccan' }}
+                            </span>
+                        </div>
+                        <div class="text-xs text-slate-500 font-medium">
+                            {{ surah.total_verses or '...' }} ആയത്തുകൾ
+                        </div>
+                    </div>
+                    
+                    <!-- Hover Indicator -->
+                    <div class="absolute bottom-4 right-4 text-islamic-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="text-sm font-bold">വായിക്കുക →</span>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-20 bg-slate-50 rounded-3xl border border-dashed border-slate-200">
+            <div class="text-6xl mb-6 opacity-30">📖</div>
+            <h3 class="text-xl font-bold text-slate-800 mb-2">സൂറകൾ ലഭ്യമല്ല</h3>
+            <p class="text-slate-500">അഡ്മിൻ പാനലിൽ നിന്ന് സൂറകൾ ചേർക്കുക</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Quick Navigation -->
+<section class="py-12 bg-slate-50 border-t border-slate-200">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-8">
+            <h3 class="text-2xl font-bold text-slate-900 mb-4">ജല്ലാതിയിൽ നിന്ന് തിരഞ്ഞെടുക്കുക</h3>
+            <p class="text-slate-600">ജുസ് അനുസരിച്ച് ഖുർആൻ വായിക്കുക</p>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 max-w-4xl mx-auto">
+            {% for juz in range(1, 31) %}
+            <a href="#" class="group p-4 bg-white rounded-xl border border-slate-200 hover:border-islamic-primary hover:shadow-lg transition-all duration-300 text-center">
+                <div class="text-lg font-bold text-slate-900 group-hover:text-islamic-primary transition">
+                    ജുസ് {{ juz }}
+                </div>
+                <div class="text-xs text-slate-500 mt-1">
+                    {% if juz == 1 %}അൽ-ഫാത്തിഹ - അൽ-ബഖറ{% else %}ഭാഗം {{ juz }}{% endif %}
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-16 bg-gradient-to-r from-islamic-primary to-islamic-secondary text-white">
+    <div class="container mx-auto px-6 text-center">
+        <h2 class="text-4xl font-bold mb-6">ഖുർആൻ പഠനം ആരംഭിക്കൂ</h2>
+        <p class="text-xl mb-8 max-w-2xl mx-auto opacity-90">
+            ഓരോ ദിവസവും ഒരു സൂറ വായിച്ച് അറിവ് വർദ്ധിപ്പിക്കുക
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{{ url_for('surah_detail', surah_number=1) }}" 
+               class="px-8 py-4 bg-white text-islamic-primary rounded-2xl font-bold hover:bg-slate-100 transition">
+                ആദ്യത്തെ സൂറ വായിക്കുക
+            </a>
+            <a href="#" 
+               class="px-8 py-4 bg-white/20 backdrop-blur text-white rounded-2xl font-bold hover:bg-white/30 transition border border-white/30">
+                ക്രമരഹിതമായി വായിക്കുക
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

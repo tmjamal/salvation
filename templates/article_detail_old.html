@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block title %}{{ article.title_ml }} — {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="relative py-12 md:py-20 bg-white">
+    <div class="container mx-auto px-6 text-center">
+        <div
+            class="flex flex-wrap items-center justify-center gap-2 mb-8 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">
+            <a href="{{ url_for('home') }}" class="hover:text-islamic-primary transition">ഹോം</a>
+            <span>/</span>
+            <a href="{{ url_for('articles') }}" class="hover:text-islamic-primary transition">ലേഖനങ്ങൾ</a>
+            {% if article.category %}
+            <span>/</span>
+            <a href="{{ url_for('articles_by_category', slug=article.category.slug) }}"
+                class="hover:text-islamic-primary transition">{{ article.category.name_ml }}</a>
+            {% endif %}
+            <span>/</span>
+            <span class="text-islamic-primary">വായന</span>
+        </div>
+
+        <h1 class="text-4xl md:text-6xl font-bold font-serif text-slate-900 mb-8 leading-tight max-w-4xl mx-auto">
+            {{ article.title_ml }}
+        </h1>
+
+        <div
+            class="flex flex-wrap items-center justify-center gap-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+            {% if article.category %}
+            <span class="px-4 py-1.5 bg-islamic-primary/10 text-islamic-primary rounded-full">{{
+                article.category.name_ml }}</span>
+            {% endif %}
+            {% if article.author %}
+            <span class="flex items-center gap-2 italic">✍️ {{ article.author }}</span>
+            {% endif %}
+            {% if article.created_at %}
+            <span class="flex items-center gap-2 italic">📅 {{ article.created_at.strftime('%d %B %Y') }}</span>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<section class="pb-24">
+    <div class="container mx-auto px-6 max-w-4xl">
+        <div class="bg-white p-8 md:p-16 rounded-[3rem] border border-slate-100 shadow-xl relative">
+            <div class="prose prose-lg prose-slate max-w-none 
+                        prose-headings:font-serif prose-headings:text-slate-900 
+                        prose-p:text-slate-600 prose-p:leading-relaxed 
+                        prose-blockquote:italic prose-blockquote:border-islamic-primary 
+                        prose-strong:text-slate-800">
+                {{ article.content_ml|safe }}
+            </div>
+
+            {% if related %}
+            <div class="mt-16 pt-12 border-t border-slate-50">
+                <h3 class="text-xl font-bold text-slate-900 mb-8 flex items-center gap-2">
+                    <span class="w-1.5 h-6 bg-islamic-primary rounded-full"></span>
+                    ബന്ധപ്പെട്ട ലേഖനങ്ങൾ
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {% for r in related %}
+                    <a href="{{ url_for('article_detail', slug=r.slug) }}"
+                        class="group p-6 bg-slate-50 rounded-2xl border border-slate-100/50 hover:bg-white hover:shadow-lg transition-all duration-300">
+                        <h4
+                            class="font-bold text-slate-800 group-hover:text-islamic-primary transition line-clamp-2 mb-2">
+                            {{ r.title_ml }}</h4>
+                        <span class="text-[10px] font-bold text-islamic-primary uppercase tracking-widest">വായിക്കുക
+                            →</span>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="mt-12 flex justify-center">
+                <a href="{{ url_for('articles') }}"
+                    class="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-white border border-slate-100 text-slate-600 font-bold hover:bg-slate-50 hover:shadow-md transition">
+                    ← ലേഖനങ്ങൾ
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

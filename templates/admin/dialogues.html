@@ -1,0 +1,39 @@
+{% extends 'admin/base.html' %}
+{% block title %}സംവാദങ്ങൾ{% endblock %}
+{% block admin_content %}
+<div class="admin-page-header">
+    <h1>🎙️ സംവാദങ്ങൾ</h1>
+    <a href="{{ url_for('admin_dialogue_add') }}" class="btn btn-primary">+ സംവാദം ചേർക്കുക</a>
+</div>
+<div class="admin-table-wrap">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ശീർഷകം</th>
+                <th>പ്രഭാഷകൻ</th>
+                <th>തീയതി</th>
+                <th>പ്രവർത്തനങ്ങൾ</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in dialogues %}
+            <tr>
+                <td>{{ d.title_ml }}</td>
+                <td>{{ d.speaker or '-' }}</td>
+                <td>{{ d.created_at.strftime('%d/%m/%Y') if d.created_at else '' }}</td>
+                <td class="actions">
+                    <a href="{{ url_for('admin_dialogue_edit', id=d.id) }}" class="edit-btn">തിരുത്തുക</a>
+                    <form method="post" action="{{ url_for('admin_dialogue_delete', id=d.id) }}" style="display:inline;"
+                        onsubmit="return confirm('ഡിലീറ്റ്?')"><button type="submit"
+                            class="delete-btn">ഡിലീറ്റ്</button></form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% if not dialogues %}<div class="empty-state">
+    <div class="icon">🎙️</div>
+    <h3>സംവാദങ്ങൾ ഇല്ല</h3>
+</div>{% endif %}
+{% endblock %}

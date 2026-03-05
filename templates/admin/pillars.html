@@ -1,0 +1,41 @@
+{% extends 'admin/base.html' %}
+{% block title %}അഞ്ച് തൂണുകൾ{% endblock %}
+{% block admin_content %}
+<div class="admin-page-header">
+    <h1>🕌 അഞ്ച് തൂണുകൾ</h1>
+    <a href="{{ url_for('admin_pillar_add') }}" class="btn btn-primary">+ തൂണ്‍ ചേർക്കുക</a>
+</div>
+<div class="admin-table-wrap">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ഐക്കൺ</th>
+                <th>മലയാളം</th>
+                <th>ഇംഗ്ലീഷ്</th>
+                <th>ക്രമം</th>
+                <th>പ്രവർത്തനങ്ങൾ</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in pillars %}
+            <tr>
+                <td>{{ p.icon }}</td>
+                <td>{{ p.name_ml }}</td>
+                <td>{{ p.name_en }}</td>
+                <td>{{ p.order }}</td>
+                <td class="actions">
+                    <a href="{{ url_for('admin_pillar_edit', id=p.id) }}" class="edit-btn">തിരുത്തുക</a>
+                    <form method="post" action="{{ url_for('admin_pillar_delete', id=p.id) }}" style="display:inline;"
+                        onsubmit="return confirm('ഡിലീറ്റ്?')"><button type="submit"
+                            class="delete-btn">ഡിലീറ്റ്</button></form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% if not pillars %}<div class="empty-state">
+    <div class="icon">🕌</div>
+    <h3>തൂണുകൾ ഇല്ല</h3>
+</div>{% endif %}
+{% endblock %}

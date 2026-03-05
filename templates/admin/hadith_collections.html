@@ -1,0 +1,42 @@
+{% extends 'admin/base.html' %}
+{% block title %}ഹദീസ് ശേഖരങ്ങൾ{% endblock %}
+{% block admin_content %}
+<div class="admin-page-header">
+    <h1>📜 ഹദീസ് ശേഖരങ്ങൾ</h1>
+    <a href="{{ url_for('admin_hadith_collection_add') }}" class="btn btn-primary">+ ശേഖരം ചേർക്കുക</a>
+</div>
+<div class="admin-table-wrap">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ഐക്കൺ</th>
+                <th>മലയാളം പേര്</th>
+                <th>ഇംഗ്ലീഷ്</th>
+                <th>സ്ലഗ്</th>
+                <th>പ്രവർത്തനങ്ങൾ</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in collections %}
+            <tr>
+                <td>{{ c.icon }}</td>
+                <td>{{ c.name_ml }}</td>
+                <td>{{ c.name_en }}</td>
+                <td>{{ c.slug }}</td>
+                <td class="actions">
+                    <a href="{{ url_for('admin_hadiths', coll_id=c.id) }}" class="edit-btn">ഹദീസുകൾ</a>
+                    <a href="{{ url_for('admin_hadith_collection_edit', id=c.id) }}" class="edit-btn">തിരുത്തുക</a>
+                    <form method="post" action="{{ url_for('admin_hadith_collection_delete', id=c.id) }}"
+                        style="display:inline;" onsubmit="return confirm('ഡിലീറ്റ് ചെയ്യണോ?')"><button type="submit"
+                            class="delete-btn">ഡിലീറ്റ്</button></form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% if not collections %}<div class="empty-state">
+    <div class="icon">📜</div>
+    <h3>ശേഖരങ്ങൾ ഇല്ല</h3>
+</div>{% endif %}
+{% endblock %}

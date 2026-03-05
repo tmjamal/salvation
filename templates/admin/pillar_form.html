@@ -1,0 +1,32 @@
+{% extends 'admin/base.html' %}
+{% block title %}{{ 'തൂണ്‍ തിരുത്തുക' if pillar else 'തൂണ്‍ ചേർക്കുക' }}{% endblock %}
+{% block admin_content %}
+<div class="admin-page-header">
+    <h1>🕌 {{ 'തൂണ്‍ തിരുത്തുക' if pillar else 'പുതിയ തൂണ്‍' }}</h1>
+    <a href="{{ url_for('admin_pillars') }}" class="btn btn-sm btn-secondary">← തിരികെ</a>
+</div>
+<form method="post" class="admin-form">
+    <div class="form-row">
+        <div class="form-group"><label>ഇംഗ്ലീഷ് പേര് *</label><input type="text" name="name_en"
+                value="{{ pillar.name_en if pillar else '' }}" required></div>
+        <div class="form-group"><label>മലയാളം പേര് *</label><input type="text" name="name_ml"
+                value="{{ pillar.name_ml if pillar else '' }}" required></div>
+    </div>
+    <div class="form-row">
+        <div class="form-group"><label>സ്ലഗ് *</label><input type="text" name="slug"
+                value="{{ pillar.slug if pillar else '' }}" required></div>
+        <div class="form-group"><label>ഐക്കൺ</label><input type="text" name="icon"
+                value="{{ pillar.icon if pillar else '☪' }}"></div>
+    </div>
+    <div class="form-group"><label>ക്രമം</label><input type="number" name="order"
+            value="{{ pillar.order if pillar else 0 }}"></div>
+    <div class="form-group"><label>ഹ്രസ്വ വിവരണം</label><textarea name="short_desc_ml"
+            style="min-height: 80px;">{{ pillar.short_desc_ml if pillar else '' }}</textarea></div>
+    <div class="form-group"><label>വിശദമായ ഉള്ളടക്കം (HTML അനുവദനീയം)</label><textarea name="full_content_ml"
+            style="min-height: 300px;">{{ pillar.full_content_ml if pillar else '' }}</textarea></div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">{{ 'അപ്ഡേറ്റ്' if pillar else 'ചേർക്കുക' }}</button>
+        <a href="{{ url_for('admin_pillars') }}" class="btn btn-secondary">റദ്ദാക്കുക</a>
+    </div>
+</form>
+{% endblock %}

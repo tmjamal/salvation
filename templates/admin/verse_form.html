@@ -1,0 +1,32 @@
+{% extends 'admin/base.html' %}
+{% block title %}{{ 'ആയത്ത് തിരുത്തുക' if verse else 'ആയത്ത് ചേർക്കുക' }}{% endblock %}
+{% block admin_content %}
+<div class="admin-page-header">
+    <h1>📄 {{ surah.name_malayalam }} — {{ 'ആയത്ത് തിരുത്തുക' if verse else 'ആയത്ത് ചേർക്കുക' }}</h1>
+    <a href="{{ url_for('admin_verses', surah_id=surah.id) }}" class="btn btn-sm btn-secondary">← തിരികെ</a>
+</div>
+<form method="post" class="admin-form">
+    <div class="form-group">
+        <label>ആയത്ത് നമ്പർ *</label>
+        <input type="number" name="verse_number" value="{{ verse.verse_number if verse else '' }}" required>
+    </div>
+    <div class="form-group">
+        <label>അറബിക് ടെക്സ്റ്റ് *</label>
+        <textarea name="text_arabic" dir="rtl"
+            style="font-family: var(--font-arabic); font-size: 1.3rem; line-height: 2.5;"
+            required>{{ verse.text_arabic if verse else '' }}</textarea>
+    </div>
+    <div class="form-group">
+        <label>മലയാളം പരിഭാഷ *</label>
+        <textarea name="translation_ml" required>{{ verse.translation_ml if verse else '' }}</textarea>
+    </div>
+    <div class="form-group">
+        <label>തഫ്സീർ (മലയാളം)</label>
+        <textarea name="tafsir_ml">{{ verse.tafsir_ml if verse else '' }}</textarea>
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">{{ 'അപ്ഡേറ്റ്' if verse else 'ചേർക്കുക' }}</button>
+        <a href="{{ url_for('admin_verses', surah_id=surah.id) }}" class="btn btn-secondary">റദ്ദാക്കുക</a>
+    </div>
+</form>
+{% endblock %}

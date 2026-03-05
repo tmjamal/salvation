@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% block title %}{{ surah.name_malayalam }} — {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="relative py-12 md:py-20 bg-white">
+    <div class="container mx-auto px-6 text-center">
+        <div
+            class="flex flex-wrap items-center justify-center gap-2 mb-8 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">
+            <a href="{{ url_for('home') }}" class="hover:text-islamic-primary transition">ഹോം</a>
+            <span>/</span>
+            <a href="{{ url_for('quran') }}" class="hover:text-islamic-primary transition">ഖുർആൻ</a>
+            <span>/</span>
+            <span class="text-islamic-primary">സൂറ {{ surah.number }}</span>
+        </div>
+
+        <div class="inline-block relative mb-8">
+            <div class="absolute inset-0 bg-islamic-primary/5 rounded-full scale-150 blur-3xl opacity-50"></div>
+            <h1 class="text-5xl md:text-7xl font-bold font-serif text-slate-900 relative z-10 arabic-text leading-[1.8]"
+                dir="rtl">
+                {{ surah.name_arabic }}
+            </h1>
+        </div>
+
+        <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-4">{{ surah.name_malayalam }}{% if
+            surah.name_english %} ({{ surah.name_english }}){% endif %}</h2>
+        <div class="flex items-center justify-center gap-4 text-xs font-bold text-slate-500 uppercase tracking-widest">
+            <span class="px-3 py-1 bg-slate-100 rounded-lg">{{ surah.revelation_type or 'Meccan' }}</span>
+            <span>·</span>
+            <span>{{ surah.total_verses or '...' }} ആയത്തുകൾ</span>
+        </div>
+    </div>
+</div>
+
+<section class="pb-24">
+    <div class="container mx-auto px-6 max-w-4xl">
+
+        {% if surah.summary_ml %}
+        <div
+            class="bg-amber-50/30 p-8 rounded-[2.5rem] border border-amber-100 shadow-sm mb-16 relative overflow-hidden group">
+            <div class="absolute top-0 right-0 p-4 text-4xl opacity-10 group-hover:scale-110 transition duration-500">📖
+            </div>
+            <h3 class="text-lg font-bold text-amber-900 mb-4 flex items-center gap-2">
+                <span class="w-1.5 h-6 bg-amber-400 rounded-full"></span>
+                സൂറയുടെ സംഗ്രഹം
+            </h3>
+            <p class="text-slate-600 leading-relaxed italic">{{ surah.summary_ml }}</p>
+        </div>
+        {% endif %}
+
+        {% if surah.verses %}
+        <div class="space-y-6">
+            {% for verse in surah.verses %}
+            <div
+                class="group bg-white p-8 md:p-12 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 relative">
+
+                <div
+                    class="absolute top-8 left-8 w-12 h-12 bg-slate-50 text-slate-300 font-bold flex items-center justify-center rounded-2xl border border-slate-100 group-hover:bg-islamic-primary group-hover:text-white transition duration-300">
+                    {{ verse.verse_number }}
+                </div>
+
+                <!-- Tabs for Translation and Tafsir -->
+                <div class="mb-6">
+                    <div class="flex border-b border-slate-200">
+                        <button onclick="toggleTab('translation-{{ verse.verse_number }}', 'tafsir-{{ verse.verse_number }}')" 
+                                class="tab-btn px-4 py-2 text-sm font-medium text-islamic-primary border-b-2 border-islamic-primary" 
+                                id="translation-tab-{{ verse.verse_number }}">
+                            വിവർത്തനം
+                        </button>
+                        {% if verse.tafsir_ml %}
+                        <button onclick="toggleTab('tafsir-{{ verse.verse_number }}', 'translation-{{ verse.verse_number }}')" 
+                                class="tab-btn px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-700 border-b-2 border-transparent" 
+                                id="tafsir-tab-{{ verse.verse_number }}">
+                            തഫ്സീർ
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Arabic Text (Always Visible) -->
+                <div class="arabic-text text-3xl md:text-5xl text-slate-800 leading-[2.2] text-right mb-8" dir="rtl">
+                    {{ verse.text_arabic }}
+                </div>
+
+                <!-- Translation Tab Content -->
+                <div id="translation-{{ verse.verse_number }}" class="tab-content">
+                    <div class="bg-islamic-primary/5 p-6 rounded-2xl border border-islamic-primary/20">
+                        <div class="flex items-start gap-4">
+                            <div class="w-8 h-8 bg-islamic-primary text-white rounded-xl flex items-center justify-center font-bold text-sm shrink-0">
+                                ML
+                            </div>
+                            <div class="text-lg text-slate-700 leading-relaxed">{{ verse.translation_ml }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tafsir Tab Content -->
+                {% if verse.tafsir_ml %}
+                <div id="tafsir-{{ verse.verse_number }}" class="tab-content hidden">
+                    <div class="bg-amber-50/50 p-6 md:p-8 rounded-3xl border border-amber-100/50">
+                        <div class="flex items-start gap-4">
+                            <div class="w-8 h-8 bg-amber-500 text-white rounded-xl flex items-center justify-center font-bold text-sm shrink-0">
+                                T
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-amber-700 uppercase tracking-widest mb-3">തഫ്സീർ (വിവരണം)</h4>
+                                <div class="text-slate-600 leading-relaxed">{{ verse.tafsir_ml }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- JavaScript for Tab Functionality -->
+        <script>
+        function toggleTab(showId, hideId) {
+            const showElement = document.getElementById(showId);
+            const hideElement = document.getElementById(hideId);
+            const showTab = document.getElementById(showId + '-tab');
+            const hideTab = document.getElementById(hideId + '-tab');
+            
+            // Toggle content
+            showElement.classList.remove('hidden');
+            hideElement.classList.add('hidden');
+            
+            // Toggle tab styles
+            showTab.classList.add('text-islamic-primary', 'border-b-2', 'border-islamic-primary');
+            showTab.classList.remove('text-slate-500', 'border-transparent');
+            
+            hideTab.classList.remove('text-islamic-primary', 'border-b-2', 'border-islamic-primary');
+            hideTab.classList.add('text-slate-500', 'border-transparent');
+        }
+        </script>
+
+        {% if not surah.verses %}
+        <div class="text-center py-20 bg-slate-50 rounded-[2.5rem] border border-dashed border-slate-200">
+            <div class="text-6xl mb-6 opacity-30">📄</div>
+            <h3 class="text-xl font-bold text-slate-800 mb-2">ആയത്തുകൾ ഇതുവരെ ചേർത്തിട്ടില്ല</h3>
+            <p class="text-slate-500">അഡ്മിൻ പാനലിൽ നിന്ന് ആയത്തുകൾ ചേർക്കുക</p>
+        </div>
+        {% endif %}
+
+        <!-- Navigation -->
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mt-16 pt-8 border-t border-slate-100">
+            {% if surah.number > 1 %}
+            <a href="{{ url_for('surah_detail', surah_number=surah.number - 1) }}"
+                class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-white border border-slate-100 text-slate-600 font-bold hover:bg-slate-50 hover:shadow-md transition text-center">
+                ← മുൻ സൂറ
+            </a>
+            {% else %}
+            <span></span>
+            {% endif %}
+
+            <a href="{{ url_for('quran') }}"
+                class="text-slate-400 font-bold uppercase tracking-widest text-xs hover:text-islamic-primary transition">
+                INDEX
+            </a>
+
+            {% if surah.number < 114 %}
+            <a href="{{ url_for('surah_detail', surah_number=surah.number + 1) }}"
+                class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-islamic-primary text-white font-bold hover:shadow-lg hover:-translate-y-1 transition text-center">
+                അടുത്ത സൂറ →
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

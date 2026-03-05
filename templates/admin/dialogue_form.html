@@ -1,0 +1,28 @@
+{% extends 'admin/base.html' %}
+{% block title %}{{ 'സംവാദം തിരുത്തുക' if dialogue else 'സംവാദം ചേർക്കുക' }}{% endblock %}
+{% block admin_content %}
+<div class="admin-page-header">
+    <h1>🎙️ {{ 'സംവാദം തിരുത്തുക' if dialogue else 'പുതിയ സംവാദം' }}</h1>
+    <a href="{{ url_for('admin_dialogues') }}" class="btn btn-sm btn-secondary">← തിരികെ</a>
+</div>
+<form method="post" class="admin-form">
+    <div class="form-group"><label>മലയാളം ശീർഷകം *</label><input type="text" name="title_ml"
+            value="{{ dialogue.title_ml if dialogue else '' }}" required></div>
+    <div class="form-row">
+        <div class="form-group"><label>സ്ലഗ് *</label><input type="text" name="slug"
+                value="{{ dialogue.slug if dialogue else '' }}" required></div>
+        <div class="form-group"><label>പ്രഭാഷകൻ</label><input type="text" name="speaker"
+                value="{{ dialogue.speaker if dialogue else '' }}"></div>
+    </div>
+    <div class="form-group"><label>വീഡിയോ URL</label><input type="url" name="video_url"
+            value="{{ dialogue.video_url if dialogue else '' }}"></div>
+    <div class="form-group"><label>ഹ്രസ്വ വിവരണം</label><textarea name="description_ml"
+            style="min-height: 80px;">{{ dialogue.description_ml if dialogue else '' }}</textarea></div>
+    <div class="form-group"><label>മുഴുവൻ ഉള്ളടക്കം (HTML) *</label><textarea name="content_ml"
+            style="min-height: 300px;" required>{{ dialogue.content_ml if dialogue else '' }}</textarea></div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">{{ 'അപ്ഡേറ്റ്' if dialogue else 'ചേർക്കുക' }}</button>
+        <a href="{{ url_for('admin_dialogues') }}" class="btn btn-secondary">റദ്ദാക്കുക</a>
+    </div>
+</form>
+{% endblock %}

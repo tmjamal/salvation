@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category.name_ml }} — {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-6 py-12">
+    <!-- Header with Breadcrumb -->
+    <div class="mb-12">
+        <div class="flex items-center gap-2 text-sm text-slate-400 mb-4">
+            <a href="{{ url_for('home') }}" class="hover:text-theme-primary transition-colors">ഹോം</a>
+            <span>›</span>
+            <a href="{{ url_for('stories') }}" class="hover:text-theme-primary transition-colors">കഥകൾ</a>
+            <span>›</span>
+            <span class="text-slate-600 font-medium">{{ category.name_ml }}</span>
+        </div>
+
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+                <h1 class="text-4xl md:text-5xl font-bold font-serif text-slate-900 mb-4 flex items-center gap-4">
+                    <span class="text-5xl">{{ category.icon or '📖' }}</span>
+                    {{ category.name_ml }}
+                </h1>
+                <p class="text-slate-500 max-w-2xl text-lg leading-relaxed">
+                    {{ category.description_ml or 'വിശുദ്ധമായ ചരിത്രങ്ങളും പ്രചോദനാത്മകമായ കഥകളും ഇതിൽ വായിക്കാം.' }}
+                </p>
+            </div>
+            <div class="bg-theme-primary/5 px-6 py-3 rounded-2xl border border-theme-primary/10">
+                <span class="text-theme-primary font-bold text-2xl">{{ stories|length }}</span>
+                <span class="text-slate-600 text-sm font-medium ml-2">ലേഖനങ്ങൾ</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stories Grid -->
+    {% if stories %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for story in stories %}
+        <div class="theme-shade rounded-[2.5rem] p-8 flex flex-col h-full group">
+            <div class="flex justify-between items-start mb-6">
+                <div
+                    class="w-12 h-12 bg-theme-primary/10 rounded-2xl flex items-center justify-center text-theme-primary font-bold text-xl">
+                    {{ loop.index }}
+                </div>
+                <div
+                    class="px-3 py-1 bg-slate-50 text-slate-400 text-[10px] font-bold rounded-full uppercase tracking-widest">
+                    {{ category.name_ml }}
+                </div>
+            </div>
+
+            <h3
+                class="text-2xl font-bold text-slate-900 mb-4 leading-tight group-hover:text-theme-primary transition-colors">
+                {{ story.title_ml }}
+            </h3>
+
+            <p class="text-slate-500 leading-relaxed mb-8 flex-grow line-clamp-4">
+                {{ story.short_desc_ml or '' }}
+            </p>
+
+            <div class="pt-6 border-t border-slate-50 flex items-center justify-between mt-auto">
+                <a href="{{ url_for('story_detail', cat_slug=category.slug, story_slug=story.slug) }}"
+                    class="inline-flex items-center gap-2 text-theme-primary font-bold text-sm hover:gap-3 transition-all">
+                    കൂടുതൽ വായിക്കുക
+                    <span class="text-xl">→</span>
+                </a>
+                <span class="text-[10px] text-slate-300 font-medium">ഹിസ്റ്ററി</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-24 bg-slate-50 rounded-[3rem] border-2 border-dashed border-slate-200">
+        <div class="text-7xl mb-6 grayscale h-20">📖</div>
+        <h3 class="text-2xl font-bold text-slate-400">കഥകൾ ഉടൻ ലഭ്യമാകും</h3>
+        <p class="text-slate-400 mt-2">ഞങ്ങൾ പുതിയ ഉള്ളടക്കം ചേർക്കാനുള്ള തയ്യാറെടുപ്പിലാണ്.</p>
+        <a href="{{ url_for('stories') }}" class="inline-block mt-8 text-theme-primary font-bold">മടങ്ങുക →</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,247 @@
+{% extends 'admin/base.html' %}
+{% block title %}ഡാഷ്ബോർഡ്{% endblock %}
+{% block admin_content %}
+<style>
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: #ffffff;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card:hover {
+    border-color: #10b981;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+}
+
+.stat-info .stat-number {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #1f2937;
+    line-height: 1;
+    margin-bottom: 0.25rem;
+}
+
+.stat-info .stat-label {
+    font-size: 0.9rem;
+    color: #6b7280;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.card {
+    background: #ffffff;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+    color: #1f2937;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.btn-secondary {
+    background: #f3f4f6;
+    color: #374151;
+    border-color: #d1d5db;
+}
+
+.btn-secondary:hover {
+    background: #e5e7eb;
+    border-color: #9ca3af;
+    transform: translateX(4px);
+}
+
+.card ul {
+    list-style: none;
+    padding: 0;
+}
+
+.card li {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #f3f4f6;
+    color: #374151;
+}
+
+.card li:last-child {
+    border-bottom: none;
+}
+
+.card li strong {
+    color: #1f2937;
+    font-weight: 700;
+}
+
+@media (max-width: 768px) {
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+}
+</style>
+
+<div class="admin-page-header" style="margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 3px solid #e5e7eb;">
+    <h1 style="color: #1f2937; font-size: 2rem; font-weight: 800; margin: 0;">📊 ഡാഷ്ബോർഡ്</h1>
+    <p style="color: #6b7280; margin: 0.5rem 0 0 0; font-size: 1rem;">നിങ്ങളുടെ ഇസ്‌ലാമിക് വെബ്‌സൈറ്റിന്റെ സമ്പൂർണ്ണമായ സ്ഥിതിവിവരം</p>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon">📖</div>
+        <div class="stat-info">
+            <div class="stat-number">{{ stats.surahs }}</div>
+            <div class="stat-label">സൂറകൾ</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">📄</div>
+        <div class="stat-info">
+            <div class="stat-number">{{ stats.verses }}</div>
+            <div class="stat-label">ആയത്തുകൾ</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">📜</div>
+        <div class="stat-info">
+            <div class="stat-number">{{ stats.hadiths }}</div>
+            <div class="stat-label">ഹദീസുകൾ</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">📘</div>
+        <div class="stat-info">
+            <div class="stat-number">{{ stats.stories }}</div>
+            <div class="stat-label">കഥകൾ</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">📰</div>
+        <div class="stat-info">
+            <div class="stat-number">{{ stats.articles }}</div>
+            <div class="stat-label">ലേഖനങ്ങൾ</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">⚖️</div>
+        <div class="stat-info">
+            <div class="stat-number">{{ stats.fatwas }}</div>
+            <div class="stat-label">ഫത്‍വകൾ</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">🎙️</div>
+        <div class="stat-info">
+            <div class="stat-number">{{ stats.dialogues }}</div>
+            <div class="stat-label">സംവാദങ്ങൾ</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">🏛️</div>
+        <div class="stat-info">
+            <div class="stat-number">{{ stats.pillars }}</div>
+            <div class="stat-label">ഇസ്‌ലാമിക് തൂണുകൾ</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">👁️</div>
+        <div class="stat-info">
+            <div class="stat-number">{{ stats.total_hits }}</div>
+            <div class="stat-label">ആകെ സന്ദർശനങ്ങൾ</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">📅</div>
+        <div class="stat-info">
+            <div class="stat-number">{{ stats.today_hits }}</div>
+            <div class="stat-label">ഇന്നത്തെ സന്ദർശനങ്ങൾ</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-info">
+            <div class="stat-number">{{ stats.unique_visitors }}</div>
+            <div class="stat-label">അതിഥികൾ</div>
+        </div>
+    </div>
+</div>
+
+<div class="grid-2">
+    <div class="card">
+        <h3>⚡ ദ്രുത പ്രവർത്തനങ്ങൾ</h3>
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <a href="{{ url_for('admin_surah_add') }}" class="btn btn-secondary">📖 സൂറ ചേർക്കുക</a>
+            <a href="{{ url_for('admin_story_category_add') }}" class="btn btn-secondary">📘 കഥ വിഭാഗം ചേർക്കുക</a>
+            <a href="{{ url_for('admin_article_add') }}" class="btn btn-secondary">📰 ലേഖനം ചേർക്കുക</a>
+            <a href="{{ url_for('admin_fatwa_add') }}" class="btn btn-secondary">⚖️ ഫത്‍വ ചേർക്കുക</a>
+            <a href="{{ url_for('admin_dialogue_add') }}" class="btn btn-secondary">🎙️ സംവാദം ചേർക്കുക</a>
+            <a href="{{ url_for('admin_daily_verse_add') }}" class="btn btn-secondary">✨ ദിവസ വചനം ചേർക്കുക</a>
+        </div>
+    </div>
+    <div class="card">
+        <h3>ℹ️ സൈറ്റ് വിവരങ്ങൾ</h3>
+        <ul>
+            <li><strong>സൈറ്റ്:</strong> {{ site_name }}</li>
+            <li><strong>ആകെ ഉള്ളടക്കം:</strong> {{ stats.surahs + stats.hadiths + stats.stories + stats.articles + stats.fatwas + stats.dialogues }} ഇനങ്ങൾ</li>
+            <li><strong>ഖുർആൻ ഉള്ളടക്കം:</strong> {{ stats.surahs }} സൂറകൾ, {{ stats.verses }} ആയത്തുകൾ</li>
+            <li><strong>ഹദീസ് ഉള്ളടക്കം:</strong> {{ stats.hadiths }} ഹദീസുകൾ</li>
+            <li><strong>സാങ്കേതികം:</strong> Flask + SQLite</li>
+            <li><strong>അഡ്മിൻ പാനൽ:</strong> പ്രവർത്തനക്ഷമം</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

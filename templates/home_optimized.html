@@ -1,0 +1,289 @@
+{% extends 'base.html' %}
+{% block title %}{{ site_name }} — ഇസ്‌ലാമിക അറിവിന്റെ പുതിയ തവണകൾ{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative py-16 md:py-24 bg-gradient-to-br from-islamic-primary/5 via-white to-islamic-secondary/5 overflow-hidden">
+    <div class="container mx-auto px-6 text-center relative z-10">
+        <!-- Floating Elements -->
+        <div class="absolute top-10 left-10 w-20 h-20 bg-islamic-primary/10 rounded-full blur-xl animate-pulse"></div>
+        <div class="absolute top-20 right-20 w-32 h-32 bg-islamic-secondary/10 rounded-full blur-2xl animate-pulse delay-1000"></div>
+        <div class="absolute bottom-10 left-1/4 w-16 h-16 bg-emerald-500/10 rounded-full blur-lg animate-pulse delay-500"></div>
+        
+        <!-- Main Content -->
+        <div class="max-w-4xl mx-auto">
+            <div class="mb-8">
+                <span class="inline-block px-4 py-2 bg-islamic-primary/10 text-islamic-primary text-sm font-bold rounded-full uppercase tracking-widest mb-6">
+                    സ്വാഗതം
+                </span>
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-bold text-slate-900 mb-6 leading-tight font-serif">
+                ഇസ്‌ലാമിക അറിവിന്റെ
+                <span class="block text-islamic-primary">പുതിയ തവണകൾ</span>
+            </h1>
+            
+            <p class="text-xl md:text-2xl text-slate-600 mb-12 leading-relaxed max-w-3xl mx-auto font-light">
+                ഖുർആൻ, ഹദീസ്, ഇസ്‌ലാമിക ചരിത്രം, തൂണുകൾ എന്നിവയിൽ ആധികാരികമായ അറിവുകൾ മലയാളത്തിൽ
+            </p>
+            
+            <!-- Search Bar -->
+            <div class="max-w-2xl mx-auto mb-12">
+                <div class="relative">
+                    <input type="text" placeholder="ഖുർആൻ, ഹദീസ്, വിഷയങ്ങൾ തിരയുക..." 
+                           class="w-full px-6 py-4 text-lg bg-white/80 backdrop-blur border border-slate-200 rounded-2xl shadow-lg focus:outline-none focus:ring-2 focus:ring-islamic-primary/50 focus:border-transparent transition">
+                    <button class="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2 bg-islamic-primary text-white rounded-xl hover:bg-islamic-primary/90 transition">
+                        തിരയുക
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+                <div class="bg-white/60 backdrop-blur p-6 rounded-2xl border border-slate-200/50">
+                    <div class="text-3xl font-bold text-islamic-primary mb-2">114</div>
+                    <div class="text-sm text-slate-600 font-medium">സൂറകൾ</div>
+                </div>
+                <div class="bg-white/60 backdrop-blur p-6 rounded-2xl border border-slate-200/50">
+                    <div class="text-3xl font-bold text-islamic-secondary mb-2">6,236</div>
+                    <div class="text-sm text-slate-600 font-medium">ആയത്തുകൾ</div>
+                </div>
+                <div class="bg-white/60 backdrop-blur p-6 rounded-2xl border border-slate-200/50">
+                    <div class="text-3xl font-bold text-emerald-500 mb-2">34,583</div>
+                    <div class="text-sm text-slate-600 font-medium">ഹദീസുകൾ</div>
+                </div>
+                <div class="bg-white/60 backdrop-blur p-6 rounded-2xl border border-slate-200/50">
+                    <div class="text-3xl font-bold text-indigo-500 mb-2">5</div>
+                    <div class="text-sm text-slate-600 font-medium">തൂണുകൾ</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content Grid -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Main Content Area -->
+            <div class="lg:col-span-2 space-y-12">
+                
+                <!-- Featured Content -->
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+                        <span class="w-1 h-8 bg-islamic-primary rounded-full"></span>
+                        പ്രധാന ഉള്ളടക്കങ്ങൾ
+                    </h2>
+                    
+                    <!-- Quran Card -->
+                    <div class="group bg-gradient-to-br from-islamic-primary/5 to-transparent p-8 rounded-3xl border border-islamic-primary/20 hover:shadow-xl transition-all duration-300 mb-6">
+                        <div class="flex items-start gap-6">
+                            <div class="w-16 h-16 bg-islamic-primary text-white rounded-2xl flex items-center justify-center text-2xl shadow-lg group-hover:scale-110 transition">
+                                📖
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-2xl font-bold text-slate-900 mb-3">വിശുദ്ധ ഖുർആൻ</h3>
+                                <p class="text-slate-600 mb-4 leading-relaxed">
+                                    114 സൂറകളും 6,236 ആയത്തുകളും അറബിക്, മലയാളം വിവർത്തനം, തഫ്‌സീർ എന്നിവയോടെ ആധികാരികമായ വിശദീകരണം
+                                </p>
+                                <a href="{{ url_for('quran') }}" 
+                                   class="inline-flex items-center gap-2 px-6 py-3 bg-islamic-primary text-white rounded-xl hover:bg-islamic-primary/90 transition font-bold">
+                                    ഖുർആൻ വായിക്കുക
+                                    <span class="text-lg">→</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Hadith Card -->
+                    <div class="group bg-gradient-to-br from-islamic-secondary/5 to-transparent p-8 rounded-3xl border border-islamic-secondary/20 hover:shadow-xl transition-all duration-300 mb-6">
+                        <div class="flex items-start gap-6">
+                            <div class="w-16 h-16 bg-islamic-secondary text-white rounded-2xl flex items-center justify-center text-2xl shadow-lg group-hover:scale-110 transition">
+                                📜
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-2xl font-bold text-slate-900 mb-3">ഹദീസ് ശേഖരം</h3>
+                                <p class="text-slate-600 mb-4 leading-relaxed">
+                                    സഹീഹ് ബുഖാരി, സഹീഹ് മുസ്‌ലിം തുടങ്ങിയ പ്രമുഖ ഹദീസ് ശേഖരങ്ങളുടെ മലയാള പരിഭാഷ
+                                </p>
+                                <a href="{{ url_for('hadith') }}" 
+                                   class="inline-flex items-center gap-2 px-6 py-3 bg-islamic-secondary text-white rounded-xl hover:bg-islamic-secondary/90 transition font-bold">
+                                    ഹദീസുകൾ വായിക്കുക
+                                    <span class="text-lg">→</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Articles -->
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+                        <span class="w-1 h-8 bg-emerald-500 rounded-full"></span>
+                        ഏറ്റവും പുതിയ ലേഖനങ്ങൾ
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <!-- Article 1 -->
+                        <article class="group bg-white p-6 rounded-2xl border border-slate-100 hover:shadow-lg transition-all duration-300">
+                            <div class="flex items-start gap-4">
+                                <div class="w-2 h-16 bg-emerald-500 rounded-full"></div>
+                                <div class="flex-1">
+                                    <h4 class="text-lg font-bold text-slate-900 mb-2 group-hover:text-emerald-600 transition">
+                                        ഇസ്‌ലാമിലെ പ്രാർത്ഥനയുടെ പ്രാധാന്യം
+                                    </h4>
+                                    <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                                        അല്ലാഹുവുമായുള്ള ബന്ധം ശക്തിപ്പെടുത്തുന്ന പ്രാർത്ഥനയുടെ സുന്നഹിതവും നിർവഹണവും...
+                                    </p>
+                                    <div class="flex items-center gap-4 text-xs text-slate-500">
+                                        <span>ഇസ്‌ലാമിക് പഠനങ്ങൾ</span>
+                                        <span>•</span>
+                                        <span>5 മിനിറ്റ് വായന</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                        
+                        <!-- Article 2 -->
+                        <article class="group bg-white p-6 rounded-2xl border border-slate-100 hover:shadow-lg transition-all duration-300">
+                            <div class="flex items-start gap-4">
+                                <div class="w-2 h-16 bg-indigo-500 rounded-full"></div>
+                                <div class="flex-1">
+                                    <h4 class="text-lg font-bold text-slate-900 mb-2 group-hover:text-indigo-600 transition">
+                                        അഞ്ച് തൂണുകളുടെ വിശദീകരണം
+                                    </h4>
+                                    <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                                        ഇസ്‌ലാമിന്റെ അടിസ്ഥാനത്തിൽ നിൽക്കുന്ന അഞ്ച് തൂണുകളും അവയുടെ പ്രാധാന്യവും...
+                                    </p>
+                                    <div class="flex items-center gap-4 text-xs text-slate-500">
+                                        <span>ഇബാദത്ത്</span>
+                                        <span>•</span>
+                                        <span>3 മിനിറ്റ് വായന</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sidebar -->
+            <aside class="space-y-8">
+                
+                <!-- Quick Access -->
+                <div class="bg-gradient-to-br from-slate-50 to-white p-6 rounded-3xl border border-slate-200">
+                    <h3 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+                        <span class="w-1.5 h-6 bg-islamic-primary rounded-full"></span>
+                        ദ്രുത ആക്സസ്
+                    </h3>
+                    
+                    <div class="space-y-3">
+                        <a href="{{ url_for('quran') }}" 
+                           class="flex items-center gap-3 p-3 bg-islamic-primary/5 rounded-xl hover:bg-islamic-primary/10 transition group">
+                            <div class="w-10 h-10 bg-islamic-primary text-white rounded-lg flex items-center justify-center text-sm font-bold">
+                                ഖുർ
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-bold text-slate-900 group-hover:text-islamic-primary">ഖുർആൻ</div>
+                                <div class="text-xs text-slate-600">114 സൂറകൾ</div>
+                            </div>
+                            <span class="text-islamic-primary group-hover:translate-x-1 transition">→</span>
+                        </a>
+                        
+                        <a href="{{ url_for('hadith') }}" 
+                           class="flex items-center gap-3 p-3 bg-islamic-secondary/5 rounded-xl hover:bg-islamic-secondary/10 transition group">
+                            <div class="w-10 h-10 bg-islamic-secondary text-white rounded-lg flex items-center justify-center text-sm font-bold">
+                                ഹദീ
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-bold text-slate-900 group-hover:text-islamic-secondary">ഹദീസ്</div>
+                                <div class="text-xs text-slate-600">7 ശേഖരങ്ങൾ</div>
+                            </div>
+                            <span class="text-islamic-secondary group-hover:translate-x-1 transition">→</span>
+                        </a>
+                        
+                        <a href="{{ url_for('pillars') }}" 
+                           class="flex items-center gap-3 p-3 bg-indigo-500/5 rounded-xl hover:bg-indigo-500/10 transition group">
+                            <div class="w-10 h-10 bg-indigo-500 text-white rounded-lg flex items-center justify-center text-sm font-bold">
+                                5
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-bold text-slate-900 group-hover:text-indigo-500">തൂണുകൾ</div>
+                                <div class="text-xs text-slate-600">ഇസ്‌ലാമിന്റെ അടിത്തളം</div>
+                            </div>
+                            <span class="text-indigo-500 group-hover:translate-x-1 transition">→</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Daily Verse -->
+                <div class="bg-gradient-to-br from-amber-50 to-orange-50 p-6 rounded-3xl border border-amber-200">
+                    <h3 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                        <span class="w-1.5 h-6 bg-amber-500 rounded-full"></span>
+                        ദിനം തോറും ആയത്ത്
+                    </h3>
+                    
+                    <div class="bg-white/60 backdrop-blur p-4 rounded-2xl border border-amber-200/50">
+                        <div class="arabic-text text-2xl text-slate-800 text-right mb-3" dir="rtl">
+                            بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
+                        </div>
+                        <p class="text-slate-700 text-sm mb-2 italic">
+                            "പരമകരുണാധരനായ, അത്യന്തം കരുണാലുവായ അല്ലാഹുവിന്റെ നാമത്തിൽ."
+                        </p>
+                        <div class="text-xs text-amber-600 font-bold">
+                            - സൂറ 1:1 (അൽ-ഫാത്തിഹ)
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Useful Links -->
+                <div class="bg-gradient-to-br from-slate-50 to-white p-6 rounded-3xl border border-slate-200">
+                    <h3 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+                        <span class="w-1.5 h-6 bg-slate-600 rounded-full"></span>
+                        ഉപയോഗമുള്ള ലിങ്കുകൾ
+                    </h3>
+                    
+                    <div class="space-y-2">
+                        <a href="https://tanzil.net" target="_blank" 
+                           class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-100 transition group">
+                            <span class="text-slate-400 group-hover:text-slate-600">→</span>
+                            <span class="text-sm text-slate-600 group-hover:text-slate-900">Tanzil.net</span>
+                        </a>
+                        <a href="https://quran.com" target="_blank" 
+                           class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-100 transition group">
+                            <span class="text-slate-400 group-hover:text-slate-600">→</span>
+                            <span class="text-sm text-slate-600 group-hover:text-slate-900">Quran.com</span>
+                        </a>
+                        <a href="https://islamicfinder.org" target="_blank" 
+                           class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-100 transition group">
+                            <span class="text-slate-400 group-hover:text-slate-600">→</span>
+                            <span class="text-sm text-slate-600 group-hover:text-slate-900">Islamic Finder</span>
+                        </a>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-16 bg-gradient-to-r from-islamic-primary to-islamic-secondary text-white">
+    <div class="container mx-auto px-6 text-center">
+        <h2 class="text-4xl font-bold mb-6">ഇസ്‌ലാമിക അറിവ് പരിശീലിക്കൂ</h2>
+        <p class="text-xl mb-8 max-w-2xl mx-auto opacity-90">
+            ആയിരക്കണ്ട് വർഷങ്ങളായി സംരക്ഷിക്കപ്പെട്ട അറിവുകൾ നിങ്ങളുടെ കൈകളിൽ
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{{ url_for('quran') }}" 
+               class="px-8 py-4 bg-white text-islamic-primary rounded-2xl font-bold hover:bg-slate-100 transition">
+                ഖുർആൻ പഠിക്കുക
+            </a>
+            <a href="{{ url_for('hadith') }}" 
+               class="px-8 py-4 bg-white/20 backdrop-blur text-white rounded-2xl font-bold hover:bg-white/30 transition border border-white/30">
+                ഹദീസുകൾ വായിക്കുക
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'admin/base.html' %}
+{% block title %}Site Settings — Admin{% endblock %}
+{% block admin_content %}
+<div class="space-y-6">
+    <div class="flex items-center justify-between">
+        <h1 class="text-2xl font-bold text-slate-800">സൈറ്റ് ക്രമീകരണങ്ങൾ (Site Settings)</h1>
+    </div>
+
+    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 max-w-2xl">
+        <form method="POST" class="space-y-8">
+            <div>
+                <label class="block text-sm font-bold text-slate-700 mb-4">സൈറ്റ് തീം തിരഞ്ഞെടുക്കുക (Select
+                    Theme)</label>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {% for theme in themes %}
+                    <label
+                        class="relative flex flex-col p-4 bg-slate-50 border rounded-2xl cursor-pointer hover:bg-white hover:shadow-md transition group {{ 'border-islamic-primary ring-2 ring-islamic-primary/20 bg-white' if current_theme == theme.id else 'border-slate-100' }}">
+                        <input type="radio" name="theme" value="{{ theme.id }}" class="sr-only" {{ 'checked' if
+                            current_theme==theme.id else '' }} onchange="this.form.submit()">
+                        <span class="font-bold text-slate-900 mb-1">{{ theme.name }}</span>
+                        <div class="flex gap-1 mt-2">
+                            {% if theme.id == 'green-peacock' %}
+                            <div class="w-4 h-4 rounded-full bg-emerald-500"></div>
+                            <div class="w-4 h-4 rounded-full bg-cyan-500"></div>
+                            {% elif theme.id == 'gray-black' %}
+                            <div class="w-4 h-4 rounded-full bg-slate-500"></div>
+                            <div class="w-4 h-4 rounded-full bg-black"></div>
+                            {% elif theme.id == 'blue-light' %}
+                            <div class="w-4 h-4 rounded-full bg-blue-800"></div>
+                            <div class="w-4 h-4 rounded-full bg-sky-400"></div>
+                            {% elif theme.id == 'orange-red' %}
+                            <div class="w-4 h-4 rounded-full bg-orange-500"></div>
+                            <div class="w-4 h-4 rounded-full bg-red-600"></div>
+                            {% endif %}
+                        </div>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="pt-6 border-t border-slate-100 flex justify-end">
+                <button type="submit"
+                    class="px-8 py-3 bg-islamic-primary text-white font-bold rounded-xl hover:shadow-lg transition">Save
+                    Settings</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

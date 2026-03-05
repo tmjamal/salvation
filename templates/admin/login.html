@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>അഡ്മിൻ ലോഗിൻ — {{ site_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-messages">
+        {% for category, message in messages %}
+        <div class="flash-msg {{ category }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <div class="login-page">
+        <div class="login-card">
+            <div class="brand-icon">☪</div>
+            <h2>അഡ്മിൻ ലോഗിൻ</h2>
+            <p>{{ site_name }}</p>
+            <form method="post">
+                <div class="form-group">
+                    <label>ഉപയോക്തൃനാമം</label>
+                    <input type="text" name="username" placeholder="admin" required autofocus>
+                </div>
+                <div class="form-group">
+                    <label>പാസ്‌വേഡ്</label>
+                    <input type="password" name="password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">ലോഗിൻ
+                    ചെയ്യുക</button>
+            </form>
+            <p style="margin-top: 1.5rem; font-size: 0.8rem;">
+                <a href="{{ url_for('home') }}">← സൈറ്റിലേക്ക് മടങ്ങുക</a>
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>

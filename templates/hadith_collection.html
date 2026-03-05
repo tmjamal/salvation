@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% block title %}{{ collection.name_ml }} — {{ site_name }}{% endblock %}
+{% block content %}
+<div class="relative py-12 md:py-20 bg-white">
+    <div class="container mx-auto px-6 text-center">
+        <div class="flex flex-wrap items-center justify-center gap-2 mb-8 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">
+            <a href="{{ url_for('home') }}" class="hover:text-islamic-secondary transition">ഹോം</a>
+            <span>/</span>
+            <a href="{{ url_for('hadith') }}" class="hover:text-islamic-secondary transition">ഹദീസ്</a>
+            <span>/</span>
+            <span class="text-islamic-secondary">{{ collection.name_ml }}</span>
+        </div>
+
+        <div class="inline-block relative mb-8">
+            <div class="absolute inset-0 bg-islamic-secondary/5 rounded-full scale-150 blur-3xl opacity-50"></div>
+            <h1 class="text-5xl md:text-7xl font-bold text-slate-900 relative z-10">
+                {{ collection.icon or '📘' }} {{ collection.name_ml }}
+            </h1>
+        </div>
+
+        <p class="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed mb-8">{{ collection.description_ml or collection.name_en }}</p>
+    </div>
+</div>
+
+<section class="pb-24">
+    <div class="container mx-auto px-6 max-w-4xl">
+        <div class="space-y-6">
+            {% for h in hadiths.items %}
+            <div class="group bg-white p-8 md:p-12 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 relative">
+
+                <!-- Hadith Number and Grade -->
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center gap-4">
+                        {% if h.hadith_number %}
+                        <div class="w-12 h-12 bg-islamic-secondary/5 text-islamic-secondary font-bold flex items-center justify-center rounded-2xl border border-islamic-secondary/20">
+                            {{ h.hadith_number }}
+                        </div>
+                        {% endif %}
+                        {% if h.narrator_ml %}
+                        <div class="text-lg font-bold text-slate-800">{{ h.narrator_ml }}</div>
+                        {% endif %}
+                    </div>
+                    {% if h.grade %}
+                    <span class="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full uppercase tracking-widest">
+                        {{ h.grade }}
+                    </span>
+                    {% endif %}
+                </div>
+
+                <!-- Arabic Text -->
+                {% if h.text_arabic %}
+                <div class="arabic-text text-2xl md:text-4xl text-slate-800 leading-[2.2] text-right mb-8" dir="rtl">
+                    {{ h.text_arabic }}
+                </div>
+                {% endif %}
+
+                <!-- Malayalam Translation -->
+                <div class="bg-islamic-secondary/5 p-6 rounded-2xl border border-islamic-secondary/20">
+                    <div class="flex items-start gap-4">
+                        <div class="w-8 h-8 bg-islamic-secondary text-white rounded-xl flex items-center justify-center font-bold text-sm shrink-0">
+                            ML
+                        </div>
+                        <div class="text-lg text-slate-700 leading-relaxed">{{ h.text_ml }}</div>
+                    </div>
+                </div>
+
+                <!-- Metadata -->
+                {% if h.chapter_ml %}
+                <div class="mt-6 pt-6 border-t border-slate-100">
+                    <div class="flex items-center gap-2 text-sm text-slate-500">
+                        <span class="w-2 h-2 bg-islamic-secondary rounded-full"></span>
+                        {{ h.chapter_ml }}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if hadiths.items|length == 0 %}
+        <div class="text-center py-20 bg-slate-50 rounded-[2.5rem] border border-dashed border-slate-200">
+            <div class="text-6xl mb-6 opacity-30">📜</div>
+            <h3 class="text-xl font-bold text-slate-800 mb-2">ഹദീസുകൾ ഇതുവരെ ചേർത്തിട്ടില്ല</h3>
+            <p class="text-slate-500">അഡ്മിൻ പാനലിൽ നിന്ന് ഹദീസുകൾ ചേർക്കുക</p>
+        </div>
+        {% endif %}
+
+        <!-- Pagination -->
+        {% if hadiths.pages > 1 %}
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mt-16 pt-8 border-t border-slate-100">
+            {% if hadiths.has_prev %}
+            <a href="{{ url_for('hadith_collection', slug=collection.slug, page=hadiths.prev_num) }}"
+                class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-white border border-slate-100 text-slate-600 font-bold hover:bg-slate-50 hover:shadow-md transition text-center">
+                ← മുൻപുറം
+            </a>
+            {% else %}
+            <span></span>
+            {% endif %}
+
+            <div class="text-slate-400 font-bold uppercase tracking-widest text-xs">
+                പേജ് {{ hadiths.page }} of {{ hadiths.pages }}
+            </div>
+
+            {% if hadiths.has_next %}
+            <a href="{{ url_for('hadith_collection', slug=collection.slug, page=hadiths.next_num) }}"
+                class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-islamic-secondary text-white font-bold hover:shadow-lg hover:-translate-y-1 transition text-center">
+                അടുത്തത് →
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

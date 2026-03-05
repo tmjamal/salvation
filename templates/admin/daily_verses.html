@@ -1,0 +1,40 @@
+{% extends 'admin/base.html' %}
+{% block title %}ദിവസ വചനങ്ങൾ{% endblock %}
+{% block admin_content %}
+<div class="admin-page-header">
+    <h1>✨ ദിവസ വചനങ്ങൾ</h1>
+    <a href="{{ url_for('admin_daily_verse_add') }}" class="btn btn-primary">+ വചനം ചേർക്കുക</a>
+</div>
+<div class="admin-table-wrap">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>അറബിക്</th>
+                <th>മലയാളം</th>
+                <th>റഫറൻസ്</th>
+                <th>പ്രവർത്തനങ്ങൾ</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for v in verses %}
+            <tr>
+                <td style="font-family: var(--font-arabic); direction: rtl; max-width: 200px;">{{ v.verse_arabic[:60]
+                    }}...</td>
+                <td style="max-width: 250px;">{{ v.verse_ml[:80] }}...</td>
+                <td>{{ v.reference or '-' }}</td>
+                <td class="actions">
+                    <a href="{{ url_for('admin_daily_verse_edit', id=v.id) }}" class="edit-btn">തിരുത്തുക</a>
+                    <form method="post" action="{{ url_for('admin_daily_verse_delete', id=v.id) }}"
+                        style="display:inline;" onsubmit="return confirm('ഡിലീറ്റ്?')"><button type="submit"
+                            class="delete-btn">ഡിലീറ്റ്</button></form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% if not verses %}<div class="empty-state">
+    <div class="icon">✨</div>
+    <h3>ദിവസ വചനങ്ങൾ ഇല്ല</h3>
+</div>{% endif %}
+{% endblock %}

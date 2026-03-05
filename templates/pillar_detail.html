@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}{{ pillar.name_ml }} — {{ site_name }}{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>{{ pillar.icon or '☪' }} {{ pillar.name_ml }}</h1>
+    <p>{{ pillar.short_desc_ml or '' }}</p>
+    <div class="breadcrumb">
+        <a href="{{ url_for('home') }}">ഹോം</a>
+        <span class="separator">›</span>
+        <a href="{{ url_for('pillars') }}">അഞ്ച് തൂണുകൾ</a>
+        <span class="separator">›</span>
+        <span>{{ pillar.name_ml }}</span>
+    </div>
+</div>
+<section class="section">
+    <div class="story-content">
+        <div class="content-body">
+            {{ pillar.full_content_ml|safe if pillar.full_content_ml else '<div class="empty-state">
+                <div class="icon">📄</div>
+                <h3>ഉള്ളടക്കം ഉടൻ ചേർക്കും</h3>
+            </div>' }}
+        </div>
+        <div style="margin-top: 2rem;">
+            <a href="{{ url_for('pillars') }}" class="btn btn-secondary">← തിരികെ</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

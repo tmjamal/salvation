@@ -1,0 +1,49 @@
+{% extends 'admin/base.html' %}
+{% block title %}{{ 'കഥ തിരുത്തുക' if story else 'കഥ ചേർക്കുക' }}{% endblock %}
+{% block admin_content %}
+<div class="admin-page-header">
+    <h1>📘 {{ 'കഥ തിരുത്തുക' if story else 'പുതിയ കഥ ചേർക്കുക' }} — {{ category.name_ml }}</h1>
+    <a href="{{ url_for('admin_stories', cat_id=category.id) }}" class="btn btn-sm btn-secondary">← തിരികെ</a>
+</div>
+<form method="post" class="admin-form">
+    <div class="form-group">
+        <label>വിഭാഗം തിരുക *</label>
+        <select name="category_id" required>
+            <option value="">തിരഞ്ഞെടുക</option>
+            {% for cat in categories %}
+            <option value="{{ cat.id }}" {{ 'selected' if story and story.category_id == cat.id else '' }}>{{ cat.name_ml }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-row">
+        <div class="form-group"><label>മലയാളം ശീർഷകം *</label><input type="text" name="title_ml"
+                value="{{ story.title_ml if story else '' }}" required></div>
+        <div class="form-group"><label>ഇംഗ്ലീഷ് ശീർഷകം</label><input type="text" name="title_en"
+                value="{{ story.title_en if story else '' }}"></div>
+    </div>
+    <div class="form-row">
+        <div class="form-group"><label>സ്ലഗ് *</label><input type="text" name="slug"
+                value="{{ story.slug if story else '' }}" required>
+            <div class="hint">ഉദാ: adam, ibrahim, musa</div>
+        </div>
+        <div class="form-group"><label>ക്രമം</label><input type="number" name="order"
+                value="{{ story.order if story else 0 }}"></div>
+    </div>
+    <div class="form-group"><label>ഹ്രസ്വ വിവരണം</label><textarea name="short_desc_ml"
+            style="min-height: 80px;">{{ story.short_desc_ml if story else '' }}</textarea></div>
+    <div class="form-group"><label>മുഴുവൻ ഉള്ളടക്കം (HTML അനുവദനീയം) *</label><textarea name="full_content_ml"
+            style="min-height: 400px;" required>{{ story.full_content_ml if story else '' }}</textarea></div>
+    <div class="form-group"><label>വീഡിയോ ലിങ്ക് (YouTube, Instagram, TikTok മുതലായവ)</label><input type="url" name="video_url"
+            value="{{ story.video_url if story else '' }}" placeholder="https://youtube.com/watch?v=...">
+        <div class="hint">യൂട്യൂബ്, ഇൻസ്റ്റഗ്രാം, ടിക്ടോക് തുടങ്ങിയ സോഷ്യൽ മീഡിയ വീഡിയോ ലിങ്കുകൾ ചേർക്കാം</div>
+    </div>
+    <div class="form-group"><label>ചിത്രം URL</label><input type="url" name="image_url"
+            value="{{ story.image_url if story else '' }}" placeholder="https://example.com/image.jpg">
+        <div class="hint">കഥ ചിത്രം ചേർക്കാൻ</div>
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">{{ 'അപ്ഡേറ്റ്' if story else 'ചേർക്കുക' }}</button>
+        <a href="{{ url_for('admin_stories', cat_id=category.id) }}" class="btn btn-secondary">റദ്ദാക്കുക</a>
+    </div>
+</form>
+{% endblock %}

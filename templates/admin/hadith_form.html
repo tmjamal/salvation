@@ -1,0 +1,30 @@
+{% extends 'admin/base.html' %}
+{% block title %}{{ 'ഹദീസ് തിരുത്തുക' if hadith else 'ഹദീസ് ചേർക്കുക' }}{% endblock %}
+{% block admin_content %}
+<div class="admin-page-header">
+    <h1>📜 {{ 'ഹദീസ് തിരുത്തുക' if hadith else 'പുതിയ ഹദീസ് ചേർക്കുക' }}</h1>
+    <a href="{{ url_for('admin_hadiths', coll_id=collection.id) }}" class="btn btn-sm btn-secondary">← തിരികെ</a>
+</div>
+<form method="post" class="admin-form">
+    <div class="form-row">
+        <div class="form-group"><label>ഹദീസ് നമ്പർ</label><input type="number" name="hadith_number"
+                value="{{ hadith.hadith_number if hadith else '' }}"></div>
+        <div class="form-group"><label>ഗ്രേഡ്</label><input type="text" name="grade"
+                value="{{ hadith.grade if hadith else 'സഹീഹ്' }}"></div>
+    </div>
+    <div class="form-group"><label>നിവേദകൻ (മലയാളം)</label><input type="text" name="narrator_ml"
+            value="{{ hadith.narrator_ml if hadith else '' }}"></div>
+    <div class="form-group"><label>അധ്യായം (മലയാളം)</label><input type="text" name="chapter_ml"
+            value="{{ hadith.chapter_ml if hadith else '' }}"></div>
+    <div class="form-group"><label>അറബിക് ടെക്സ്റ്റ്</label><textarea name="text_arabic" dir="rtl"
+            style="font-family: var(--font-arabic);">{{ hadith.text_arabic if hadith else '' }}</textarea></div>
+    <div class="form-group"><label>മലയാളം ടെക്സ്റ്റ് *</label><textarea name="text_ml"
+            required>{{ hadith.text_ml if hadith else '' }}</textarea></div>
+    <div class="form-check"><input type="checkbox" name="is_featured" id="featured" {{ 'checked' if hadith and
+            hadith.is_featured }}><label for="featured">ഫീച്ചർഡ് ഹദീസ് (ഹോം പേജിൽ കാണിക്കുക)</label></div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">{{ 'അപ്ഡേറ്റ്' if hadith else 'ചേർക്കുക' }}</button>
+        <a href="{{ url_for('admin_hadiths', coll_id=collection.id) }}" class="btn btn-secondary">റദ്ദാക്കുക</a>
+    </div>
+</form>
+{% endblock %}

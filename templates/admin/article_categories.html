@@ -1,0 +1,41 @@
+{% extends 'admin/base.html' %}
+{% block title %}ലേഖന വിഭാഗങ്ങൾ{% endblock %}
+{% block admin_content %}
+<div class="admin-page-header">
+    <h1>🏷️ ലേഖന വിഭാഗങ്ങൾ</h1>
+    <a href="{{ url_for('admin_article_category_add') }}" class="btn btn-primary">+ വിഭാഗം ചേർക്കുക</a>
+</div>
+<div class="admin-table-wrap">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ഐക്കൺ</th>
+                <th>മലയാളം</th>
+                <th>ഇംഗ്ലീഷ്</th>
+                <th>സ്ലഗ്</th>
+                <th>പ്രവർത്തനങ്ങൾ</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in categories %}
+            <tr>
+                <td>{{ c.icon }}</td>
+                <td>{{ c.name_ml }}</td>
+                <td>{{ c.name_en }}</td>
+                <td>{{ c.slug }}</td>
+                <td class="actions">
+                    <a href="{{ url_for('admin_article_category_edit', id=c.id) }}" class="edit-btn">തിരുത്തുക</a>
+                    <form method="post" action="{{ url_for('admin_article_category_delete', id=c.id) }}"
+                        style="display:inline;" onsubmit="return confirm('ഡിലീറ്റ്?')"><button type="submit"
+                            class="delete-btn">ഡിലീറ്റ്</button></form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% if not categories %}<div class="empty-state">
+    <div class="icon">🏷️</div>
+    <h3>വിഭാഗങ്ങൾ ഇല്ല</h3>
+</div>{% endif %}
+{% endblock %}

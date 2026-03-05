@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% block title %}ലേഖനങ്ങൾ - {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-6 py-8">
+    <!-- Header -->
+    <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold text-slate-900 mb-4 font-serif">ലേഖനങ്ങൾ</h1>
+        <p class="text-lg text-slate-600 max-w-2xl mx-auto">ഇസ്ലാമിക വിഷയങ്ങളിൽ ആഴമായ അറിവ് നൽകുന്ന ലേഖനങ്ങൾ</p>
+        <div class="w-24 h-1 bg-gradient-to-r from-theme-primary to-theme-secondary mx-auto mt-4 rounded-full"></div>
+    </div>
+
+    <!-- Category Filter -->
+    <div class="flex flex-wrap justify-center gap-3 mb-8">
+        <button class="px-4 py-2 rounded-full text-sm font-bold bg-slate-100 text-slate-600 transition" 
+                onclick="filterArticles('all')" 
+                id="filter-all">
+            എല്ലാം
+        </button>
+        {% for category in categories %}
+        <button class="px-4 py-2 rounded-full text-sm font-bold bg-slate-100 text-slate-600 transition" 
+                onclick="filterArticles('{{ category.id }}')"
+                id="filter-{{ category.id }}">
+            {{ category.name_ml }}
+        </button>
+        {% endfor %}
+    </div>
+
+    <!-- Articles Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="articles-grid">
+        {% for article in articles %}
+        <article class="bg-white rounded-3xl theme-shade shadow-sm overflow-hidden group cursor-pointer"
+                 data-category="{{ article.category.id }}"
+                 onclick="window.location.href='{{ url_for('article_detail', slug=article.slug) }}'">
+            <!-- Article Image -->
+            <div class="aspect-video bg-gradient-to-br from-theme-primary/10 to-theme-secondary/10 overflow-hidden">
+                {% if article.image_url %}
+                <img src="{{ article.image_url }}" 
+                     alt="{{ article.title_ml }}" 
+                     class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                {% else %}
+                <div class="w-full h-full flex items-center justify-center">
+                    <div class="text-6xl text-theme-primary/20">📚</div>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Article Content -->
+            <div class="p-6">
+                <!-- Category Badge -->
+                <div class="inline-block px-3 py-1 text-xs font-bold text-theme-primary bg-theme-primary/10 rounded-full mb-3">
+                    {{ article.category.name_ml }}
+                </div>
+                
+                <!-- Title -->
+                <h3 class="text-xl font-bold text-slate-900 mb-3 line-clamp-2 group-hover:text-theme-primary transition">
+                    {{ article.title_ml }}
+                </h3>
+                
+                <!-- Summary -->
+                <p class="text-slate-600 mb-4 line-clamp-3 leading-relaxed">
+                    {{ article.summary_ml or article.content_ml[:200] + '...' }}
+                </p>
+                
+                <!-- Meta Info -->
+                <div class="flex items-center justify-between text-sm text-slate-500">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        {{ article.created_at.strftime('%d %b %Y') if article.created_at else 'അറിയില്ല' }}
+                    </div>
+                    <div class="flex items-center gap-1 text-theme-primary group-hover:gap-2 transition">
+                        കൂടുതൽ
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+
+    <!-- No Articles Message -->
+    {% if articles|length == 0 %}
+    <div class="text-center py-16">
+        <div class="text-6xl mb-4">📚</div>
+        <h3 class="text-2xl font-bold text-slate-900 mb-2">ലേഖനങ്ങൾ ഇല്ല</h3>
+        <p class="text-slate-600">ഇപ്പോൾ ലേഖനങ്ങൾ ലഭ്യമല്ല. ഉടൻ ചേർക്കും.</p>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+function filterArticles(categoryId) {
+    const articles = document.querySelectorAll('#articles-grid article');
+    const buttons = document.querySelectorAll('[id^="filter-"]');
+    
+    // Update button states
+    buttons.forEach(btn => {
+        btn.classList.remove('bg-theme-primary', 'text-white');
+        btn.classList.add('bg-slate-100', 'text-slate-600');
+    });
+    
+    const activeBtn = document.getElementById(`filter-${categoryId}`);
+    activeBtn.classList.remove('bg-slate-100', 'text-slate-600');
+    activeBtn.classList.add('bg-theme-primary', 'text-white');
+    
+    // Filter articles
+    articles.forEach(article => {
+        if (categoryId === 'all' || article.dataset.category === categoryId) {
+            article.style.display = 'block';
+            article.classList.add('fade-in');
+        } else {
+            article.style.display = 'none';
+        }
+    });
+}
+
+// Initialize with "all" filter
+document.addEventListener('DOMContentLoaded', () => {
+    filterArticles('all');
+});
+</script>
+
+<style>
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+</style>
+{% endblock %}

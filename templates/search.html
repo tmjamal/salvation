@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block title %}തിരയൽ — {{ site_name }}{% endblock %}
+{% block content %}
+<div class="search-hero">
+    <h1>🔍 തിരയുക</h1>
+    <div class="search-box">
+        <form action="{{ url_for('search') }}" method="get" style="display: flex; gap: 0.5rem; width: 100%;">
+            <input type="text" name="q" placeholder="ഇസ്ലാമിക വിഷയങ്ങൾ തിരയുക..." value="{{ query }}" autofocus>
+            <button type="submit">തിരയുക</button>
+        </form>
+    </div>
+</div>
+<section class="section">
+    <div class="section-container" style="max-width: 800px;">
+        {% if query %}
+        <p style="margin-bottom: 2rem; color: var(--text-muted);">"{{ query }}" എന്നതിന്റെ ഫലങ്ങൾ</p>
+
+        {% if results.articles %}
+        <div class="search-results-section">
+            <h3>📰 ലേഖനങ്ങൾ ({{ results.articles|length }})</h3>
+            {% for a in results.articles %}
+            <a href="{{ url_for('article_detail', slug=a.slug) }}" class="result-item"
+                style="display: block; margin-bottom: 0.5rem;">
+                <div style="font-weight: 600; color: var(--text-heading);">{{ a.title_ml }}</div>
+                <div style="font-size: 0.85rem; color: var(--text-muted);">{{ a.summary_ml[:100] if a.summary_ml else ''
+                    }}</div>
+            </a>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if results.stories %}
+        <div class="search-results-section">
+            <h3>📖 കഥകൾ ({{ results.stories|length }})</h3>
+            {% for s in results.stories %}
+            <a href="{{ url_for('story_detail', cat_slug=s.category.slug, story_slug=s.slug) }}" class="result-item"
+                style="display: block; margin-bottom: 0.5rem;">
+                <div style="font-weight: 600; color: var(--text-heading);">{{ s.title_ml }}</div>
+                <div style="font-size: 0.85rem; color: var(--text-muted);">{{ s.short_desc_ml[:100] if s.short_desc_ml
+                    else '' }}</div>
+            </a>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if results.hadiths %}
+        <div class="search-results-section">
+            <h3>📜 ഹദീസുകൾ ({{ results.hadiths|length }})</h3>
+            {% for h in results.hadiths %}
+            <div class="result-item">
+                <div style="color: var(--text-primary);">{{ h.text_ml[:200] }}...</div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if results.fatwas %}
+        <div class="search-results-section">
+            <h3>⚖️ ഫത്‍വകൾ ({{ results.fatwas|length }})</h3>
+            {% for f in results.fatwas %}
+            <div class="result-item">
+                <div style="font-weight: 600; color: var(--gold-300);">{{ f.question_ml[:150] }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if not results.articles and not results.stories and not results.hadiths and not results.fatwas %}
+        <div class="empty-state">
+            <div class="icon">🔍</div>
+            <h3>ഫലങ്ങൾ ഒന്നും കണ്ടെത്തിയില്ല</h3>
+            <p>മറ്റൊരു വാക്ക് ഉപയോഗിച്ച് ശ്രമിക്കുക</p>
+        </div>
+        {% endif %}
+
+        {% else %}
+        <div class="empty-state">
+            <div class="icon">🔍</div>
+            <h3>ഇസ്ലാമിക വിഷയങ്ങൾ തിരയുക</h3>
+            <p>ഖുർആൻ, ഹദീസ്, കഥകൾ, ലേഖനങ്ങൾ, ഫത്‍വകൾ എന്നിവയിൽ തിരയുക</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'admin/base.html' %}
+{% block title %}{{ 'വിഭാഗം തിരുത്തുക' if category else 'വിഭാഗം ചേർക്കുക' }}{% endblock %}
+{% block admin_content %}
+<div class="admin-page-header">
+    <h1>📘 {{ 'വിഭാഗം തിരുത്തുക' if category else 'പുതിയ കഥ വിഭാഗം' }}</h1>
+    <a href="{{ url_for('admin_story_categories') }}" class="btn btn-sm btn-secondary">← തിരികെ</a>
+</div>
+<form method="post" class="admin-form">
+    <div class="form-row">
+        <div class="form-group"><label>ഇംഗ്ലീഷ് പേര് *</label><input type="text" name="name_en"
+                value="{{ category.name_en if category else '' }}" required></div>
+        <div class="form-group"><label>മലയാളം പേര് *</label><input type="text" name="name_ml"
+                value="{{ category.name_ml if category else '' }}" required></div>
+    </div>
+    <div class="form-row">
+        <div class="form-group"><label>സ്ലഗ് *</label><input type="text" name="slug"
+                value="{{ category.slug if category else '' }}" required></div>
+        <div class="form-group"><label>ഐക്കൺ</label><input type="text" name="icon"
+                value="{{ category.icon if category else '📖' }}"></div>
+        <div class="form-group"><label>ചിത്രം URL</label><input type="url" name="image_url"
+                value="{{ category.image_url if category else '' }}" placeholder="https://example.com/image.jpg"></div>
+    </div>
+    <div class="form-group"><label>വിവരണം (മലയാളം)</label><textarea
+            name="description_ml">{{ category.description_ml if category else '' }}</textarea></div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">{{ 'അപ്ഡേറ്റ്' if category else 'ചേർക്കുക' }}</button>
+        <a href="{{ url_for('admin_story_categories') }}" class="btn btn-secondary">റദ്ദാക്കുക</a>
+    </div>
+</form>
+{% endblock %}

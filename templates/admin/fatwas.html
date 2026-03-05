@@ -1,0 +1,43 @@
+{% extends 'admin/base.html' %}
+{% block title %}ഫത്‍വകൾ{% endblock %}
+{% block admin_content %}
+<div class="admin-page-header">
+    <h1>⚖️ ഫത്‍വകൾ</h1>
+    <a href="{{ url_for('admin_fatwa_add') }}" class="btn btn-primary">+ ഫത്‍വ ചേർക്കുക</a>
+</div>
+<div class="admin-table-wrap">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ചോദ്യം</th>
+                <th>വിഭാഗം</th>
+                <th>പണ്ഡിതൻ</th>
+                <th>പ്രവർത്തനങ്ങൾ</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for f in fatwas.items %}
+            <tr>
+                <td style="max-width: 350px;">{{ f.question_ml[:100] }}...</td>
+                <td>{{ f.category or '-' }}</td>
+                <td>{{ f.scholar or '-' }}</td>
+                <td class="actions">
+                    <a href="{{ url_for('admin_fatwa_edit', id=f.id) }}" class="edit-btn">തിരുത്തുക</a>
+                    <form method="post" action="{{ url_for('admin_fatwa_delete', id=f.id) }}" style="display:inline;"
+                        onsubmit="return confirm('ഡിലീറ്റ്?')"><button type="submit"
+                            class="delete-btn">ഡിലീറ്റ്</button></form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% if fatwas.pages > 1 %}
+<div class="pagination" style="margin-top: 1rem;">
+    {% if fatwas.has_prev %}<a href="?page={{ fatwas.prev_num }}">←</a>{% endif %}
+    {% for p in fatwas.iter_pages() %}{% if p %}<a href="?page={{ p }}"
+        class="{% if p == fatwas.page %}active{% endif %}">{{ p }}</a>{% else %}<span>...</span>{% endif %}{% endfor %}
+    {% if fatwas.has_next %}<a href="?page={{ fatwas.next_num }}">→</a>{% endif %}
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'admin/base.html' %}
+{% block title %}{{ 'സൂറ തിരുത്തുക' if surah else 'സൂറ ചേർക്കുക' }}{% endblock %}
+{% block admin_content %}
+<div class="admin-page-header">
+    <h1>📖 {{ 'സൂറ തിരുത്തുക' if surah else 'പുതിയ സൂറ ചേർക്കുക' }}</h1>
+    <a href="{{ url_for('admin_surahs') }}" class="btn btn-sm btn-secondary">← തിരികെ</a>
+</div>
+<form method="post" class="admin-form">
+    <div class="form-row">
+        <div class="form-group">
+            <label>സൂറ നമ്പർ *</label>
+            <input type="number" name="number" value="{{ surah.number if surah else '' }}" required>
+        </div>
+        <div class="form-group">
+            <label>ആയത്തുകളുടെ എണ്ണം</label>
+            <input type="number" name="total_verses" value="{{ surah.total_verses if surah else '' }}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>അറബിക് പേര് *</label>
+        <input type="text" name="name_arabic" value="{{ surah.name_arabic if surah else '' }}" required dir="rtl"
+            style="font-family: var(--font-arabic); font-size: 1.2rem;">
+    </div>
+    <div class="form-row">
+        <div class="form-group">
+            <label>മലയാളം പേര് *</label>
+            <input type="text" name="name_malayalam" value="{{ surah.name_malayalam if surah else '' }}" required>
+        </div>
+        <div class="form-group">
+            <label>ഇംഗ്ലീഷ് പേര്</label>
+            <input type="text" name="name_english" value="{{ surah.name_english if surah else '' }}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>അവതരണ തരം</label>
+        <select name="revelation_type">
+            <option value="">തിരഞ്ഞെടുക്കുക</option>
+            <option value="മക്കി" {{ 'selected' if surah and surah.revelation_type=='മക്കി' }}>മക്കി (Makki)</option>
+            <option value="മദനി" {{ 'selected' if surah and surah.revelation_type=='മദനി' }}>മദനി (Madani)</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>സംഗ്രഹം (മലയാളം)</label>
+        <textarea name="summary_ml">{{ surah.summary_ml if surah else '' }}</textarea>
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">{{ 'അപ്ഡേറ്റ്' if surah else 'ചേർക്കുക' }}</button>
+        <a href="{{ url_for('admin_surahs') }}" class="btn btn-secondary">റദ്ദാക്കുക</a>
+    </div>
+</form>
+{% endblock %}

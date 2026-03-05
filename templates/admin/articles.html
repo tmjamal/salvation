@@ -1,0 +1,46 @@
+{% extends 'admin/base.html' %}
+{% block title %}ലേഖനങ്ങൾ{% endblock %}
+{% block admin_content %}
+<div class="admin-page-header">
+    <h1>📰 ലേഖനങ്ങൾ</h1>
+    <a href="{{ url_for('admin_article_add') }}" class="btn btn-primary">+ ലേഖനം ചേർക്കുക</a>
+</div>
+<div class="admin-table-wrap">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ശീർഷകം</th>
+                <th>വിഭാഗം</th>
+                <th>ഫീച്ചർഡ്</th>
+                <th>തീയതി</th>
+                <th>പ്രവർത്തനങ്ങൾ</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for a in articles.items %}
+            <tr>
+                <td style="max-width: 300px;">{{ a.title_ml }}</td>
+                <td>{{ a.category.name_ml if a.category else '-' }}</td>
+                <td>{{ '✅' if a.is_featured else '' }}</td>
+                <td>{{ a.created_at.strftime('%d/%m/%Y') if a.created_at else '' }}</td>
+                <td class="actions">
+                    <a href="{{ url_for('admin_article_edit', id=a.id) }}" class="edit-btn">തിരുത്തുക</a>
+                    <form method="post" action="{{ url_for('admin_article_delete', id=a.id) }}" style="display:inline;"
+                        onsubmit="return confirm('ഡിലീറ്റ്?')"><button type="submit"
+                            class="delete-btn">ഡിലീറ്റ്</button></form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% if articles.pages > 1 %}
+<div class="pagination" style="margin-top: 1rem;">
+    {% if articles.has_prev %}<a href="?page={{ articles.prev_num }}">←</a>{% endif %}
+    {% for p in articles.iter_pages() %}{% if p %}<a href="?page={{ p }}"
+        class="{% if p == articles.page %}active{% endif %}">{{ p }}</a>{% else %}<span>...</span>{% endif %}{% endfor
+    %}
+    {% if articles.has_next %}<a href="?page={{ articles.next_num }}">→</a>{% endif %}
+</div>
+{% endif %}
+{% endblock %}

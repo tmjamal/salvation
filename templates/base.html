@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-white">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ site_name }}{% endblock %}</title>
+    <meta name="description" content="{{ site_tagline }}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.base_url }}">
+    <meta property="og:title" content="{{ site_name }}">
+    <meta property="og:description" content="{{ site_tagline }}">
+
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}?v=2">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;600&family=Merriweather:wght@300;400;700&family=Noto+Sans+Malayalam:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        theme: {
+                            primary: 'var(--theme-primary)',
+                            secondary: 'var(--theme-secondary)',
+                            hover: 'var(--theme-hover)',
+                        },
+                        islamic: {
+                            primary: '#10B981',
+                            secondary: '#38BDF8',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans Malayalam', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                        arabic: ['Amiri', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        :root {
+            {% if active_theme == 'green-peacock' %}
+            --theme-primary: #10B981;
+            --theme-secondary: #0891b2;
+            --theme-hover: #059669;
+            --theme-gradient: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(8, 145, 178, 0.1));
+            --theme-shadow: 0 20px 50px -15px rgba(16, 185, 129, 0.15), 0 10px 30px -10px rgba(8, 145, 178, 0.1);
+            --theme-glow: 0 0 20px 1px rgba(16, 185, 129, 0.05);
+            {% elif active_theme == 'gray-black' %}
+            --theme-primary: #475569;
+            --theme-secondary: #0f172a;
+            --theme-hover: #1e293b;
+            --theme-gradient: linear-gradient(135deg, rgba(71, 85, 105, 0.1), rgba(15, 23, 42, 0.1));
+            --theme-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.12), 0 10px 30px -10px rgba(71, 85, 105, 0.08);
+            --theme-glow: 0 0 20px 1px rgba(0, 0, 0, 0.03);
+            {% elif active_theme == 'blue-light' %}
+            --theme-primary: #1e40af;
+            --theme-secondary: #38bdf8;
+            --theme-hover: #1d4ed8;
+            --theme-gradient: linear-gradient(135deg, rgba(30, 64, 175, 0.1), rgba(56, 189, 248, 0.1));
+            --theme-shadow: 0 20px 50px -15px rgba(30, 64, 175, 0.15), 0 10px 30px -10px rgba(56, 189, 248, 0.1);
+            --theme-glow: 0 0 20px 1px rgba(30, 64, 175, 0.05);
+            {% elif active_theme == 'orange-red' %}
+            --theme-primary: #f97316;
+            --theme-secondary: #dc2626;
+            --theme-hover: #ea580c;
+            --theme-gradient: linear-gradient(135deg, rgba(249, 115, 22, 0.1), rgba(220, 38, 38, 0.1));
+            --theme-shadow: 0 20px 50px -15px rgba(249, 115, 22, 0.15), 0 10px 30px -10px rgba(220, 38, 38, 0.1);
+            --theme-glow: 0 0 20px 1px rgba(249, 115, 22, 0.05);
+            {% endif %}
+        }
+
+        .theme-shade {
+            background: white !important;
+            border: 1px solid #000000 !important;
+            box-shadow: 
+                0 15px 35px -10px rgba(0, 0, 0, 0.05),
+                0 0 25px -5px var(--theme-primary),
+                var(--theme-glow);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .theme-shade:hover {
+            background: white !important;
+            border: 2px solid #10B981 !important;
+            box-shadow: 0 25px 60px -20px rgba(16, 185, 129, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .theme-card {
+            background: white;
+            border: 1px solid #000000 !important;
+            box-shadow: var(--theme-shadow);
+        }
+
+        .arabic-text {
+            direction: rtl;
+            font-family: 'Amiri', serif;
+            line-height: 2.2;
+        }
+
+        body {
+            background-color: #f8fafc !important; 
+            color: #0f172a !important; 
+            min-height: 100vh;
+            font-family: 'Noto Sans Malayalam', 'Inter', sans-serif;
+        }
+
+        .glass-card {
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: var(--theme-shadow);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .aspect-video { aspect-ratio: 16 / 9; }
+    </style>
+</head>
+
+<body
+    class="flex flex-col min-h-screen text-slate-900 font-sans p-0 md:p-3 lg:pt-4 lg:px-6 antialiased overflow-x-hidden theme-{{ active_theme }}"
+    dir="ltr">
+
+    <!-- Main Floating Card Container -->
+    <div
+        class="glass-card w-full max-w-[1440px] mx-auto rounded-none md:rounded-[2.5rem] flex flex-col min-h-[calc(100vh-2rem)] md:min-h-[calc(100vh-5rem)] overflow-hidden relative shadow-xl ring-1 ring-slate-200/50">
+
+        <!-- Decorative Header Slash -->
+        <div
+            class="absolute top-0 right-0 w-1/2 h-64 bg-gradient-to-l from-blue-50/30 to-transparent -skew-y-6 pointer-events-none opacity-50">
+        </div>
+
+        <!-- Navbar -->
+        <nav class="bg-white/90 text-slate-800 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100">
+            <div class="container mx-auto px-6 py-1.5 flex justify-between items-center relative z-20">
+                <a href="{{ url_for('home') }}" class="text-xl font-bold font-serif flex items-center gap-3 group">
+                    <div
+                        class="h-10 w-10 bg-islamic-primary/10 rounded-xl flex items-center justify-center shadow-md shadow-islamic-primary/10 group-hover:scale-110 transition duration-300 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-islamic-primary/20 to-transparent"></div>
+                        <svg viewBox="0 0 24 24" class="w-6 h-6 text-islamic-primary relative z-10 fill-current"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12 2L9 5H15L12 2ZM6 10C6 10 4 12 4 15C4 18 6.5 20 6.5 20H17.5C17.5 20 20 18 20 15C20 12 18 10 18 10H6ZM12 7L10 10H14L12 7ZM11 12H13V18H11V12ZM8 12H10V18H8V12ZM14 12H16V18H14V12Z" />
+                            <circle cx="12" cy="15" r="1.5" class="animate-pulse text-yellow-500 fill-current" />
+                        </svg>
+                    </div>
+                    <span class="text-islamic-primary">{{ site_name }}</span>
+                </a>
+
+                <div
+                    class="hidden lg:flex items-center space-x-1 bg-slate-50 p-1.5 rounded-full border border-slate-100">
+                    <a href="{{ url_for('home') }}"
+                        class="px-4 py-2 rounded-full text-sm font-bold text-slate-600 hover:text-slate-900 hover:bg-white hover:shadow-sm transition duration-300 {{ 'bg-white shadow-sm text-slate-900' if request.endpoint == 'home' else '' }}">ഹോം</a>
+                    <a href="{{ url_for('quran') }}"
+                        class="px-4 py-2 rounded-full text-sm font-bold text-slate-600 hover:text-islamic-primary hover:bg-white hover:shadow-sm transition duration-300 {{ 'bg-white shadow-sm text-islamic-primary' if 'quran' in request.endpoint|default('') else '' }}">ഖുർആൻ</a>
+                    <a href="{{ url_for('hadith') }}"
+                        class="px-4 py-2 rounded-full text-sm font-bold text-slate-600 hover:text-islamic-secondary hover:bg-white hover:shadow-sm transition duration-300 {{ 'bg-white shadow-sm text-islamic-secondary' if 'hadith' in request.endpoint|default('') else '' }}">ഹദീസ്</a>
+                    <a href="{{ url_for('articles') }}"
+                        class="px-4 py-2 rounded-full text-sm font-bold text-slate-600 hover:text-emerald-500 hover:bg-white hover:shadow-sm transition duration-300 {{ 'bg-white shadow-sm text-emerald-500' if request.endpoint == 'articles' or 'article' in request.endpoint|default('') else '' }}">ലേഖനങ്ങൾ</a>
+                    <a href="{{ url_for('stories') }}"
+                        class="px-4 py-2 rounded-full text-sm font-bold text-slate-600 hover:text-emerald-500 hover:bg-white hover:shadow-sm transition duration-300 {{ 'bg-white shadow-sm text-emerald-500' if 'stor' in request.endpoint|default('') else '' }}">കഥകൾ</a>
+                    <a href="{{ url_for('dialogues') }}"
+                        class="px-4 py-2 rounded-full text-sm font-bold text-slate-600 hover:text-red-500 hover:bg-white hover:shadow-sm transition duration-300 {{ 'bg-white shadow-sm text-red-500' if 'dialogue' in request.endpoint|default('') else '' }}">സംവാദങ്ങൾ</a>
+                    <a href="{{ url_for('fatwa') }}"
+                        class="px-4 py-2 rounded-full text-sm font-bold text-slate-600 hover:text-amber-500 hover:bg-white hover:shadow-sm transition duration-300 {{ 'bg-white shadow-sm text-amber-500' if 'fatwa' in request.endpoint|default('') else '' }}">ഫത്‍വ</a>
+                </div>
+
+                <div class="hidden lg:flex gap-3 items-center">
+                    <!-- Login removed - use /admin/login directly -->
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn"
+                    class="lg:hidden text-islamic-secondary text-2xl p-2 rounded-lg hover:bg-slate-50 transition focus:outline-none">
+                    ☰
+                </button>
+
+            </div>
+
+            <!-- Mobile Menu Dropdown -->
+            <div id="mobile-menu"
+                class="hidden lg:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-xl border-t border-slate-100 shadow-xl flex-col divide-y divide-slate-50 fade-in z-[60]">
+                <a href="{{ url_for('home') }}"
+                    class="block px-6 py-4 text-base font-bold text-slate-600 hover:bg-slate-50 hover:text-islamic-primary transition">ഹോം</a>
+                <a href="{{ url_for('quran') }}"
+                    class="block px-6 py-4 text-base font-bold text-slate-600 hover:bg-slate-50 hover:text-islamic-primary transition">ഖുർആൻ</a>
+                <a href="{{ url_for('hadith') }}"
+                    class="block px-6 py-4 text-base font-bold text-slate-600 hover:bg-slate-50 hover:text-islamic-secondary transition">ഹദീസ്</a>
+                <a href="{{ url_for('articles') }}"
+                    class="block px-6 py-4 text-base font-bold text-slate-600 hover:bg-slate-50 hover:text-emerald-500 transition">ലേഖനങ്ങൾ</a>
+                <a href="{{ url_for('stories') }}"
+                    class="block px-6 py-4 text-base font-bold text-slate-600 hover:bg-slate-50 hover:text-emerald-500 transition">കഥകൾ</a>
+                <a href="{{ url_for('dialogues') }}"
+                    class="block px-6 py-4 text-base font-bold text-slate-600 hover:bg-slate-50 hover:text-red-500 transition">സംവാദങ്ങൾ</a>
+                <a href="{{ url_for('fatwa') }}"
+                    class="block px-6 py-4 text-base font-bold text-slate-600 hover:bg-slate-50 hover:text-amber-500 transition">ഫത്‍വ</a>
+                <!-- Admin login removed - use /admin/login directly -->
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="flex-grow relative z-10">
+            {% block content %}{% endblock %}
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-slate-50 border-t border-slate-100 text-slate-600 py-12 relative z-10">
+            <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
+                <div>
+                    <h3
+                        class="text-slate-900 text-lg font-bold mb-4 font-serif flex items-center justify-center md:justify-start gap-2">
+                        {{ site_name }}
+                    </h3>
+                    <p class="text-sm leading-relaxed text-slate-500">{{ site_tagline }}</p>
+                </div>
+                <div class="flex flex-col items-center md:items-start">
+                    <h3 class="text-slate-900 text-lg font-bold mb-4 font-serif">Quick Links</h3>
+                    <ul class="space-y-3 text-sm font-medium">
+                        <li><a href="{{ url_for('quran') }}"
+                                class="hover:text-islamic-secondary transition flex items-center gap-2 justify-center md:justify-start"><span
+                                    class="w-1.5 h-1.5 bg-islamic-secondary rounded-full"></span> ഖുർആൻ</a></li>
+                        <li><a href="{{ url_for('hadith') }}"
+                                class="hover:text-islamic-secondary transition flex items-center gap-2 justify-center md:justify-start"><span
+                                    class="w-1.5 h-1.5 bg-islamic-secondary rounded-full"></span> ഹദീസ്</a></li>
+                        <li><a href="{{ url_for('stories') }}"
+                                class="hover:text-islamic-secondary transition flex items-center gap-2 justify-center md:justify-start"><span
+                                    class="w-1.5 h-1.5 bg-islamic-secondary rounded-full"></span> കഥകൾ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-islamic-primary text-lg font-bold mb-4 font-serif">Daily Reminder</h3>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-16 h-16 bg-islamic-cream rounded-bl-full opacity-50"></div>
+                        <p class="text-sm italic relative z-10">"തീർച്ചയായും പ്രയാസത്തോടൊപ്പം എളുപ്പമുണ്ട്." <br> <span
+                                class="text-xs font-bold text-islamic-primary not-italic mt-2 block">(ഖുർആൻ 94:6)</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="text-center mt-12 pt-8 border-t border-slate-200/60 text-xs font-bold text-slate-400 uppercase tracking-widest">
+                © {{ current_year }} {{ site_name }}. എല്ലാ അവകാശങ്ങളും സംരക്ഷിതം.
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Mobile Menu Toggle Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mobileBtn && mobileMenu) {
+                mobileBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const isHidden = mobileMenu.classList.contains('hidden');
+                    if (isHidden) {
+                        mobileMenu.classList.remove('hidden');
+                        mobileMenu.classList.add('flex');
+                        mobileBtn.textContent = '✕';
+                    } else {
+                        mobileMenu.classList.add('hidden');
+                        mobileMenu.classList.remove('flex');
+                        mobileBtn.textContent = '☰';
+                    }
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!mobileBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+                        mobileMenu.classList.add('hidden');
+                        mobileMenu.classList.remove('flex');
+                        mobileBtn.textContent = '☰';
+                    }
+                });
+            }
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

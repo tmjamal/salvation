@@ -1,0 +1,43 @@
+{% extends 'admin/base.html' %}
+{% block title %}ആയത്തുകൾ — {{ surah.name_malayalam }}{% endblock %}
+{% block admin_content %}
+<div class="admin-page-header">
+    <h1>📄 {{ surah.name_malayalam }} — ആയത്തുകൾ</h1>
+    <a href="{{ url_for('admin_verse_add', surah_id=surah.id) }}" class="btn btn-primary">+ ആയത്ത് ചേർക്കുക</a>
+</div>
+<div class="admin-table-wrap">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>നം.</th>
+                <th>അറബിക്</th>
+                <th>മലയാളം</th>
+                <th>പ്രവർത്തനങ്ങൾ</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for v in verses %}
+            <tr>
+                <td>{{ v.verse_number }}</td>
+                <td style="font-family: var(--font-arabic); direction: rtl; max-width: 300px;">{{ v.text_arabic[:80]
+                    }}...</td>
+                <td style="max-width: 300px;">{{ v.translation_ml[:80] }}...</td>
+                <td class="actions">
+                    <a href="{{ url_for('admin_verse_edit', id=v.id) }}" class="edit-btn">തിരുത്തുക</a>
+                    <form method="post" action="{{ url_for('admin_verse_delete', id=v.id) }}" style="display:inline;"
+                        onsubmit="return confirm('ഡിലീറ്റ് ചെയ്യണോ?')">
+                        <button type="submit" class="delete-btn">ഡിലീറ്റ്</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% if not verses %}
+<div class="empty-state">
+    <div class="icon">📄</div>
+    <h3>ആയത്തുകൾ ഇല്ല</h3>
+</div>
+{% endif %}
+{% endblock %}

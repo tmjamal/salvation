@@ -1,0 +1,45 @@
+{% extends 'admin/base.html' %}
+{% block title %}{{ collection.name_ml }} — ഹദീസുകൾ{% endblock %}
+{% block admin_content %}
+<div class="admin-page-header">
+    <h1>📜 {{ collection.name_ml }} — ഹദീസുകൾ</h1>
+    <a href="{{ url_for('admin_hadith_add', coll_id=collection.id) }}" class="btn btn-primary">+ ഹദീസ് ചേർക്കുക</a>
+</div>
+<div class="admin-table-wrap">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>നം.</th>
+                <th>ടെക്സ്റ്റ്</th>
+                <th>നിവേദകൻ</th>
+                <th>ഫീച്ചർഡ്</th>
+                <th>പ്രവർത്തനങ്ങൾ</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for h in hadiths.items %}
+            <tr>
+                <td>{{ h.hadith_number }}</td>
+                <td style="max-width: 350px;">{{ h.text_ml[:100] }}...</td>
+                <td>{{ h.narrator_ml[:50] if h.narrator_ml else '-' }}</td>
+                <td>{{ '✅' if h.is_featured else '' }}</td>
+                <td class="actions">
+                    <a href="{{ url_for('admin_hadith_edit', id=h.id) }}" class="edit-btn">തിരുത്തുക</a>
+                    <form method="post" action="{{ url_for('admin_hadith_delete', id=h.id) }}" style="display:inline;"
+                        onsubmit="return confirm('ഡിലീറ്റ്?')"><button type="submit"
+                            class="delete-btn">ഡിലീറ്റ്</button></form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% if hadiths.pages > 1 %}
+<div class="pagination" style="margin-top: 1rem;">
+    {% if hadiths.has_prev %}<a href="?page={{ hadiths.prev_num }}">←</a>{% endif %}
+    {% for p in hadiths.iter_pages() %}{% if p %}<a href="?page={{ p }}"
+        class="{% if p == hadiths.page %}active{% endif %}">{{ p }}</a>{% else %}<span>...</span>{% endif %}{% endfor %}
+    {% if hadiths.has_next %}<a href="?page={{ hadiths.next_num }}">→</a>{% endif %}
+</div>
+{% endif %}
+{% endblock %}

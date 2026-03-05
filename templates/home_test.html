@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Test Home{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-6 py-8">
+    <h1>Test Home Page</h1>
+    <p>Slideshow items count: {{ slideshow_items|length if slideshow_items else 0 }}</p>
+    
+    {% if slideshow_items %}
+        <p>Slideshow items found:</p>
+        <ul>
+        {% for item in slideshow_items %}
+            <li>{{ item.type }}: {{ item.title }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No slideshow items found</p>
+    {% endif %}
+</div>
+{% endblock %}

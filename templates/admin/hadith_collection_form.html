@@ -1,0 +1,30 @@
+{% extends 'admin/base.html' %}
+{% block title %}{{ 'ശേഖരം തിരുത്തുക' if collection else 'ശേഖരം ചേർക്കുക' }}{% endblock %}
+{% block admin_content %}
+<div class="admin-page-header">
+    <h1>📜 {{ 'ശേഖരം തിരുത്തുക' if collection else 'പുതിയ ഹദീസ് ശേഖരം' }}</h1>
+    <a href="{{ url_for('admin_hadith_collections') }}" class="btn btn-sm btn-secondary">← തിരികെ</a>
+</div>
+<form method="post" class="admin-form">
+    <div class="form-row">
+        <div class="form-group"><label>ഇംഗ്ലീഷ് പേര് *</label><input type="text" name="name_en"
+                value="{{ collection.name_en if collection else '' }}" required></div>
+        <div class="form-group"><label>മലയാളം പേര് *</label><input type="text" name="name_ml"
+                value="{{ collection.name_ml if collection else '' }}" required></div>
+    </div>
+    <div class="form-row">
+        <div class="form-group"><label>സ്ലഗ് *</label><input type="text" name="slug"
+                value="{{ collection.slug if collection else '' }}" required>
+            <div class="hint">ഉദാ: bukhari, muslim</div>
+        </div>
+        <div class="form-group"><label>ഐക്കൺ</label><input type="text" name="icon"
+                value="{{ collection.icon if collection else '📘' }}"></div>
+    </div>
+    <div class="form-group"><label>വിവരണം (മലയാളം)</label><textarea
+            name="description_ml">{{ collection.description_ml if collection else '' }}</textarea></div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">{{ 'അപ്ഡേറ്റ്' if collection else 'ചേർക്കുക' }}</button>
+        <a href="{{ url_for('admin_hadith_collections') }}" class="btn btn-secondary">റദ്ദാക്കുക</a>
+    </div>
+</form>
+{% endblock %}

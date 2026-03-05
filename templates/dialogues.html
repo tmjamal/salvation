@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}സംവാദങ്ങൾ — {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-6 py-12">
+    <div class="text-center mb-16">
+        <h1 class="text-4xl md:text-5xl font-bold font-serif text-slate-800 mb-4">🎙️ സംവാദങ്ങൾ</h1>
+        <p class="text-slate-600 max-w-2xl mx-auto">അഹമ്മദ് ദീദാത്ത്, ഡോ. സക്കീർ നായിക് തുടങ്ങിയ പ്രമുഖ പണ്ഡിതരുടെ
+            സംവാദങ്ങളും പ്രഭാഷണങ്ങളും.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for video in dialogues %}
+        <div
+            class="glass-card hover:shadow-2xl transition-all duration-300 rounded-3xl overflow-hidden flex flex-col h-full border border-slate-100/50">
+            <!-- Video Embed -->
+            <div class="relative w-full aspect-video bg-black">
+                <iframe class="absolute top-0 left-0 w-full h-full"
+                    src="https://www.youtube.com/embed/{{ video.video_id }}" title="{{ video.title_ml }}"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+            <div class="p-6 flex flex-col flex-grow">
+                <div class="flex items-center gap-2 mb-3">
+                    <span
+                        class="px-3 py-1 bg-red-50 text-red-600 text-[10px] font-bold rounded-full uppercase tracking-wider">Video</span>
+                    <span class="text-xs font-medium text-slate-400">{{ video.speaker }}</span>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-3 line-clamp-2 md:h-14">{{ video.title_ml }}</h3>
+                <p class="text-slate-500 text-sm line-clamp-3 mb-4 flex-grow">{{ video.description_ml }}</p>
+                <div class="mt-auto border-t border-slate-100 pt-4 flex justify-between items-center">
+                    <span class="text-sm font-semibold text-slate-600 hover:text-red-500 cursor-pointer">
+                        {{ video.speaker }}
+                    </span>
+                    <a href="https://www.youtube.com/watch?v={{ video.video_id }}" target="_blank"
+                        class="text-red-500 hover:text-red-700 text-sm font-bold flex items-center gap-1">
+                        Watch on YouTube ↗
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if not dialogues %}
+    <div class="text-center py-20">
+        <div class="text-6xl mb-4">🎙️</div>
+        <h3 class="text-xl font-bold text-slate-400">സംവാദങ്ങൾ ഉടൻ ലഭ്യമാകും</h3>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

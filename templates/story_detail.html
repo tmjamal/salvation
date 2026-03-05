@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block title %}കഥ: {{ story.title_ml }} — {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="relative py-12 md:py-20 bg-white">
+    <div class="container mx-auto px-6 text-center">
+        <div
+            class="flex flex-wrap items-center justify-center gap-2 mb-8 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">
+            <a href="{{ url_for('home') }}" class="hover:text-islamic-primary transition">ഹോം</a>
+            <span>/</span>
+            <a href="{{ url_for('stories') }}" class="hover:text-islamic-primary transition">കഥകൾ</a>
+            <span>/</span>
+            <a href="{{ url_for('story_category', slug=story.category.slug) }}"
+                class="hover:text-islamic-primary transition">{{ story.category.name_ml }}</a>
+            <span>/</span>
+            <span class="text-islamic-primary">{{ story.title_ml }}</span>
+        </div>
+
+        <!-- Story Image -->
+        {% if story.image_url %}
+        <div class="inline-block relative mb-8">
+            <div class="absolute inset-0 bg-emerald-500/5 rounded-full scale-150 blur-3xl opacity-50"></div>
+            <img src="{{ story.image_url }}" 
+                 alt="{{ story.title_ml }}" 
+                 class="w-full max-w-2xl mx-auto rounded-2xl shadow-lg object-cover">
+        </div>
+        {% endif %}
+
+        <div class="inline-block relative mb-8">
+            <div class="absolute inset-0 bg-emerald-500/5 rounded-full scale-150 blur-3xl opacity-50"></div>
+            <h1 class="text-4xl md:text-6xl font-bold font-serif text-slate-900 relative z-10 leading-tight">
+                {{ story.title_ml }}
+            </h1>
+        </div>
+
+        {% if story.title_en %}
+        <h2 class="text-lg md:text-xl font-bold text-slate-400 mb-4">{{ story.title_en }}</h2>
+        {% endif %}
+
+        <div class="flex items-center justify-center gap-4 text-xs font-bold text-slate-500 uppercase tracking-widest">
+            <span class="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-lg">{{ story.category.name_ml }}</span>
+        </div>
+        
+        {% if story.video_url %}
+        <div class="mt-6">
+            <a href="{{ story.video_url }}" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+                വീഡിയോ കാണുക
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<section class="pb-24">
+    <div class="container mx-auto px-6 max-w-4xl">
+        <div class="bg-white p-8 md:p-16 rounded-[3rem] border border-slate-100 shadow-xl relative overflow-hidden">
+            <div
+                class="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-bl-[4rem] group-hover:scale-110 duration-500">
+            </div>
+
+            <div class="prose prose-lg prose-slate max-w-none relative z-10 
+                        prose-headings:font-serif prose-headings:text-slate-900 
+                        prose-p:text-slate-600 prose-p:leading-relaxed 
+                        prose-blockquote:italic prose-blockquote:border-emerald-200 
+                        prose-strong:text-slate-800">
+                {{ story.full_content_ml|safe }}
+            </div>
+
+            <div
+                class="mt-16 pt-12 border-t border-slate-50 flex flex-col sm:flex-row justify-between items-center gap-6">
+                <a href="{{ url_for('story_category', slug=story.category.slug) }}"
+                    class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-white border border-slate-100 text-slate-600 font-bold hover:bg-slate-50 hover:shadow-md transition text-center">
+                    ← {{ story.category.name_ml }}
+                </a>
+
+                <a href="{{ url_for('stories') }}"
+                    class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-emerald-500 text-white font-bold hover:shadow-lg hover:-translate-y-1 transition text-center">
+                    എല്ലാ കഥകളും കാണുക
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

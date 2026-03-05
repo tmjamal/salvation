@@ -1,0 +1,23 @@
+{% extends 'admin/base.html' %}
+{% block title %}{{ 'വചനം തിരുത്തുക' if verse else 'വചനം ചേർക്കുക' }}{% endblock %}
+{% block admin_content %}
+<div class="admin-page-header">
+    <h1>✨ {{ 'ദിവസ വചനം തിരുത്തുക' if verse else 'പുതിയ ദിവസ വചനം' }}</h1>
+    <a href="{{ url_for('admin_daily_verses') }}" class="btn btn-sm btn-secondary">← തിരികെ</a>
+</div>
+<form method="post" class="admin-form">
+    <div class="form-group"><label>അറബിക് വചനം *</label><textarea name="verse_arabic" dir="rtl"
+            style="font-family: var(--font-arabic); font-size: 1.3rem;"
+            required>{{ verse.verse_arabic if verse else '' }}</textarea></div>
+    <div class="form-group"><label>മലയാളം പരിഭാഷ *</label><textarea name="verse_ml"
+            required>{{ verse.verse_ml if verse else '' }}</textarea></div>
+    <div class="form-group"><label>റഫറൻസ്</label><input type="text" name="reference"
+            value="{{ verse.reference if verse else '' }}">
+        <div class="hint">ഉദാ: ഖുർആൻ 94:6</div>
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">{{ 'അപ്ഡേറ്റ്' if verse else 'ചേർക്കുക' }}</button>
+        <a href="{{ url_for('admin_daily_verses') }}" class="btn btn-secondary">റദ്ദാക്കുക</a>
+    </div>
+</form>
+{% endblock %}

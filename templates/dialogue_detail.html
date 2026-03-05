@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}{{ dialogue.title_ml }} — {{ site_name }}{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>{{ dialogue.title_ml }}</h1>
+    {% if dialogue.speaker %}<p>🎤 {{ dialogue.speaker }}</p>{% endif %}
+    <div class="breadcrumb">
+        <a href="{{ url_for('home') }}">ഹോം</a>
+        <span class="separator">›</span>
+        <a href="{{ url_for('dialogues') }}">സംവാദങ്ങൾ</a>
+        <span class="separator">›</span>
+        <span>{{ dialogue.title_ml }}</span>
+    </div>
+</div>
+<section class="section">
+    <div class="story-content">
+        {% if dialogue.video_url %}
+        <div style="margin-bottom: 2rem; text-align: center;">
+            <a href="{{ dialogue.video_url }}" target="_blank" class="btn btn-gold">🎬 വീഡിയോ കാണുക</a>
+        </div>
+        {% endif %}
+        <div class="content-body">
+            {{ dialogue.content_ml|safe }}
+        </div>
+        <div style="margin-top: 2rem;">
+            <a href="{{ url_for('dialogues') }}" class="btn btn-secondary">← സംവാദങ്ങൾ</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

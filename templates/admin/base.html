@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}അഡ്മിൻ{% endblock %} — {{ site_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+
+<body>
+    <nav class="navbar scrolled">
+        <div class="nav-container">
+            <a href="{{ url_for('admin_dashboard') }}" class="nav-brand">
+                <div class="brand-icon">⚙️</div>
+                <span>അഡ്മിൻ പാനൽ</span>
+            </a>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <a href="{{ url_for('home') }}" class="btn btn-sm btn-secondary">🌐 സൈറ്റ് കാണുക</a>
+                <a href="{{ url_for('admin_logout') }}" class="btn btn-sm btn-danger">ലോഗ്ഔട്ട്</a>
+            </div>
+        </div>
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-messages">
+        {% for category, message in messages %}
+        <div class="flash-msg {{ category }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <div class="admin-sidebar-header">
+                <h3>☪ നിയന്ത്രണ പാനൽ</h3>
+            </div>
+            <ul class="admin-nav">
+                <li class="admin-nav-section">
+                    <div class="admin-nav-section-title">പ്രധാനം</div>
+                    <a href="{{ url_for('admin_dashboard') }}"
+                        class="{% if request.endpoint == 'admin_dashboard' %}active{% endif %}">
+                        <span class="nav-icon">📊</span> ഡാഷ്ബോർഡ്
+                    </a>
+                </li>
+                <li class="admin-nav-section">
+                    <div class="admin-nav-section-title">ഉള്ളടക്കം</div>
+                    <a href="{{ url_for('admin_surahs') }}"
+                        class="{% if 'surah' in request.endpoint|default('') %}active{% endif %}">
+                        <span class="nav-icon">📖</span> ഖുർആൻ സൂറകൾ
+                    </a>
+                    <a href="{{ url_for('admin_hadith_collections') }}"
+                        class="{% if 'hadith' in request.endpoint|default('') %}active{% endif %}">
+                        <span class="nav-icon">📜</span> ഹദീസ്
+                    </a>
+                    <a href="{{ url_for('admin_pillars') }}"
+                        class="{% if 'pillar' in request.endpoint|default('') %}active{% endif %}">
+                        <span class="nav-icon">🕌</span> അഞ്ച് തൂണുകൾ
+                    </a>
+                    <a href="{{ url_for('admin_story_categories') }}"
+                        class="{% if 'story' in request.endpoint|default('') %}active{% endif %}">
+                        <span class="nav-icon">📘</span> കഥകൾ
+                    </a>
+                </li>
+                <li class="admin-nav-section">
+                    <div class="admin-nav-section-title">ലേഖനങ്ങൾ & ഫത്‍വ</div>
+                    <a href="{{ url_for('admin_article_categories') }}"
+                        class="{% if 'article_categor' in request.endpoint|default('') %}active{% endif %}">
+                        <span class="nav-icon">🏷️</span> ലേഖന വിഭാഗങ്ങൾ
+                    </a>
+                    <a href="{{ url_for('admin_articles') }}"
+                        class="{% if request.endpoint == 'admin_articles' or 'admin_article_' in request.endpoint|default('') %}active{% endif %}">
+                        <span class="nav-icon">📰</span> ലേഖനങ്ങൾ
+                    </a>
+                    <a href="{{ url_for('admin_fatwas') }}"
+                        class="{% if 'fatwa' in request.endpoint|default('') %}active{% endif %}">
+                        <span class="nav-icon">⚖️</span> ഫത്‍വകൾ
+                    </a>
+                </li>
+                <li class="admin-nav-section">
+                    <div class="admin-nav-section-title">മറ്റുള്ളവ</div>
+                    <a href="{{ url_for('admin_dialogues') }}"
+                        class="{% if 'dialogue' in request.endpoint|default('') %}active{% endif %}">
+                        <span class="nav-icon">🎙️</span> സംവാദങ്ങൾ
+                    </a>
+                    <a href="{{ url_for('admin_daily_verses') }}"
+                        class="{% if 'daily' in request.endpoint|default('') %}active{% endif %}">
+                        <span class="nav-icon">✨</span> ദിവസ വചനം
+                    </a>
+                </li>
+                <li class="admin-nav-section">
+                    <div class="admin-nav-section-title">ക്രമീരണങ്ങൾ</div>
+                    <a href="{{ url_for('admin_settings') }}"
+                        class="{% if request.endpoint == 'admin_settings' %}active{% endif %}">
+                        <span class="nav-icon">⚙️</span> സൈറ്റ് ക്രമീകരണങ്ങൾ
+                    </a>
+                </li>
+            </ul>
+        </aside>
+        <main class="admin-content">
+            {% block admin_content %}{% endblock %}
+        </main>
+    </div>
+
+    <script>
+        setTimeout(() => {
+            document.querySelectorAll('.flash-msg').forEach(el => {
+                el.style.opacity = '0';
+                setTimeout(() => el.remove(), 300);
+            });
+        }, 4000);
+    </script>
+</body>
+
+</html>
