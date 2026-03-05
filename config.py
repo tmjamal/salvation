@@ -10,9 +10,15 @@ class DevelopmentConfig(Config):
     
 class ProductionConfig(Config):
     DEBUG = False
+
+class VercelConfig(Config):
+    DEBUG = False
+    # Vercel will provide DATABASE_URL for PostgreSQL
+    # For SQLite, you might need to use a file-based database
     
 config = {
     'development': DevelopmentConfig,
     'production': ProductionConfig,
+    'vercel': VercelConfig,
     'default': ProductionConfig
 }

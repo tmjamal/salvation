@@ -23,6 +23,9 @@ app = Flask(__name__)
 
 # Get configuration from environment
 config_name = os.environ.get('FLASK_ENV', 'production')
+# For Vercel, check for VERCEL environment
+if os.environ.get('VERCEL'):
+    config_name = 'vercel'
 app.config.from_object(config[config_name])
 
 # Ensure database path is absolute for production
