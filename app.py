@@ -1322,10 +1322,17 @@ def inject_site_data():
 # RUN
 # ═══════════════════════════════════════════════════════════════════════
 
+# Initialize database on startup
+with app.app_context():
+    try:
+        db.create_all()
+        print("✅ Database tables created successfully")
+    except Exception as e:
+        print(f"❌ Database initialization error: {e}")
+
 # Export for gunicorn
 application = app
 
 if __name__ == '__main__':
-    with app.app_context():
         db.create_all()
     app.run(debug=True, port=5000)
