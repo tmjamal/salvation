@@ -1322,13 +1322,41 @@ def inject_site_data():
 # RUN
 # ═══════════════════════════════════════════════════════════════════════
 
+@app.route('/health')
+def health_check():
+    try:
+        # Test database connection
+        db.session.execute('SELECT 1')
+        return jsonify({
+            'status': 'healthy',
+            'database': 'connected',
+            'timestamp': datetime.now().isoformat()
+        })
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'error': str(e),
+            'timestamp': datetime.now().isoformat()
+        }), 500
+
 # Initialize database on startup
 with app.app_context():
     try:
-        db.create_all()
-        print("✅ Database tables created successfully")
+        # Check if tables exist
+        from sqlalchemy import inspect
+        inspector = inspect(db.engine)
+        existing_tables = inspector.get_table_names()
+        
+        if not existing_tables:
+            print("🔧 Creating database tables...")
+            db.create_all()
+            print("✅ Database tables created successfully")
+        else:
+            print(f"✅ Database tables already exist: {existing_tables}")
+            
     except Exception as e:
         print(f"❌ Database initialization error: {e}")
+        print("🔧 Attempting to continue anyway...")
 
 # Export for gunicorn
 application = app
