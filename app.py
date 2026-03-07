@@ -1352,15 +1352,15 @@ with app.app_context():
         existing_tables = inspector.get_table_names()
         
         if not existing_tables:
-            print("🔧 Creating database tables...")
+            print("Creating database tables...")
             db.create_all()
-            print("✅ Database tables created successfully")
+            print("Database tables created successfully")
         else:
-            print(f"✅ Database tables already exist: {existing_tables}")
+            print(f"Database tables already exist: {existing_tables}")
             
     except Exception as e:
-        print(f"❌ Database initialization error: {e}")
-        print("🔧 Attempting to continue anyway...")
+        print(f"Database initialization error: {e}")
+        print("Attempting to continue anyway...")
 
 # Export for gunicorn
 application = app
