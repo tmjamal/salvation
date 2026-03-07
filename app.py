@@ -304,11 +304,15 @@ def home():
     # Track page hit
     track_page_hit(request.url, 'ഹോം - സ്രഷ്ടാവിന്റെ മാർഗദർശനം')
     
-    # 1. Random Verse from Quran
-    random_verse = None
+    # 1. Daily Verse from Quran (changes daily)
+    daily_verse = None
     all_verses_count = Verse.query.count()
     if all_verses_count > 0:
-        random_verse = Verse.query.offset(random.randint(0, all_verses_count - 1)).first()
+        # Use date to get consistent daily verse
+        from datetime import datetime
+        day_of_year = datetime.now().timetuple().tm_yday  # Day of year (1-366)
+        verse_index = day_of_year % all_verses_count  # Cycle through verses
+        daily_verse = Verse.query.offset(verse_index).first()
     
     # 2. Random Hadith
     random_hadith = None
@@ -335,13 +339,13 @@ def home():
         random_dialogue = Dialogue.query.offset(random.randint(0, all_dialogues_count - 1)).first()
 
     slideshow_items = []
-    if random_verse:
+    if daily_verse:
         slideshow_items.append({
             'type': 'ഖുർആൻ വചനം',
-            'title': f'{random_verse.surah.name_malayalam} ({random_verse.surah.number}:{random_verse.verse_number})',
-            'content': random_verse.translation_ml,
-            'arabic': random_verse.text_arabic,
-            'link': url_for('surah_detail', surah_number=random_verse.surah.number),
+            'title': f'{daily_verse.surah.name_malayalam} ({daily_verse.surah.number}:{daily_verse.verse_number})',
+            'content': daily_verse.translation_ml,
+            'arabic': daily_verse.text_arabic,
+            'link': url_for('surah_detail', surah_number=daily_verse.surah.number),
             'color': 'emerald'
         })
     if random_hadith:
