@@ -342,10 +342,10 @@ def home():
     if daily_verse:
         slideshow_items.append({
             'type': 'ഖുർആൻ വചനം',
-            'title': f'{daily_verse.surah.name_malayalam} ({daily_verse.surah.number}:{daily_verse.verse_number})',
+            'title': f'ഖുർആൻ {daily_verse.verse_number} - {daily_verse.translation_ml[:30]}...' if daily_verse.surah else f'ഖുർആൻ {daily_verse.verse_number}',
             'content': daily_verse.translation_ml,
             'arabic': daily_verse.text_arabic,
-            'link': url_for('surah_detail', surah_number=daily_verse.surah.number),
+            'link': url_for('surah_detail', surah_number=daily_verse.surah.number) if daily_verse.surah else '#',
             'color': 'emerald'
         })
     if random_hadith:
