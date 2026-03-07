@@ -389,7 +389,7 @@ def home():
     total_hits = PageHit.query.count()
     
     return render_template('home.html',
-                           daily_verse=random_verse,
+                           daily_verse=daily_verse,
                            slideshow_items=slideshow_items,
                            total_hits=total_hits)
 
